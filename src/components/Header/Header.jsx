@@ -1,10 +1,11 @@
 import React from 'react';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
+import './style.scss';
 
 const Header = () => {
 	return (
-		<Navbar bg='light' expand='lg'>
+		<Navbar expand='lg'>
 			<Container>
 				<NavLink className='navbar-brand' to='/'>
 					Quiz

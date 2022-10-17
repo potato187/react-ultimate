@@ -1,0 +1,33 @@
+.form-group {
+	position: relative;
+	font-size: 0.875rem;
+	margin-bottom: 1.25rem;
+	.form-label {
+		font-weight: 600;
+		margin-bottom: 0.25rem;
+	}
+
+	.form-control::placeholder {
+		font-size: 0.875rem;
+		color: var(--bs-gray-600);
+	}
+
+	.form-control {
+		font-size: 0.875rem;
+		border-radius: 0.25rem;
+
+		&:focus {
+			border-color: var(--theme-text-color);
+			box-shadow: none;
+		}
+	}
+
+	.invalid-message {
+		position: absolute;
+		top: 100%;
+		left: 0.25rem;
+		font-size: 0.8125rem;
+		font-weight: 300;
+		color: var(--bs-danger);
+	}
+}

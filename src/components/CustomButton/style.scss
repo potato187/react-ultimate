@@ -1,0 +1,45 @@
+.button {
+	--button-background: var(--theme-primary);
+	--button-background-hover: var(--theme-primary-hover);
+	--button-border: transparent;
+	--button-text: var(--bs-white);
+
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0.25rem 1rem;
+	min-width: 120px;
+	color: var(--button-text);
+	background-color: var(--button-background);
+	border: 2px solid var(--button-border);
+	border-radius: 0.25rem;
+	transition-duration: 350ms;
+	transition-property: color, background-color, border-color;
+	transition-timing-function: var(--theme-timing-function);
+
+	&.active,
+	&.is-loading,
+	&:hover {
+		background-color: var(--button-background-hover);
+	}
+
+	&[disabled],
+	&.is-loading {
+		pointer-events: none;
+	}
+
+	> .button-title {
+		margin: 0 0.25rem;
+	}
+
+	> .button-circle {
+		display: inline-block;
+		width: 0.75rem;
+		height: 0.75rem;
+		background-color: transparent;
+		border: 2px solid rgba(225, 255, 255, 0.95);
+		border-left-color: transparent;
+		border-radius: 50%;
+		animation: circleSpin 1s linear infinite;
+	}
+}
