@@ -1,7 +1,11 @@
 import axiosClients from './axiosClient';
 
 const participantApi = {
-	add(data) {
+	getAll() {
+		const url = '/participant/all';
+		return axiosClients.get(url);
+	},
+	create(data) {
 		const url = '/participant';
 		return axiosClients.post(url, data);
 	},

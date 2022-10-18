@@ -1,7 +1,6 @@
 import App from '@/App';
 import Admin from '@/components/Admin';
-import CreateUser from '@/components/Admin/CreateUser/CreateUser';
-import ManageUsers from '@/components/Admin/ManageUsers/ManageUsers';
+import ManageUsers from '@/components/Admin/ManageUsers';
 import HomePage from '@/components/HomePage/HomePage';
 import Users from '@/components/Users/Users';
 import { PATH_ROUTES } from '@/constant';
@@ -47,12 +46,7 @@ export const ROUTES = [
 			},
 			{
 				id: uuid(),
-				path: ADMIN.MANAGE_USERS.CREATE_USER,
-				Component: CreateUser,
-			},
-			{
-				id: uuid(),
-				path: ADMIN.MANAGE_USERS.VIEW_USERS,
+				path: ADMIN.MANAGE_USERS.INDEX,
 				Component: ManageUsers,
 			},
 		],

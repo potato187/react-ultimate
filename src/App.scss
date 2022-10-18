@@ -63,6 +63,23 @@ button {
 	box-shadow: none;
 }
 
+.modal {
+	.modal-content {
+		.modal-header {
+			padding: 0.75rem;
+		}
+		.modal-body {
+			padding: 1.25rem;
+		}
+		.modal-title {
+			font-size: 1.25rem;
+		}
+	}
+	.btn-close:focus {
+		box-shadow: none;
+	}
+}
+
 @keyframes circleSpin {
 	0% {
 		transform: rotate(0);

@@ -4,5 +4,10 @@
 		top: 0;
 		right: 1px;
 		height: 100vh;
+
+		> video {
+			width: auto;
+			height: 100%;
+		}
 	}
 }

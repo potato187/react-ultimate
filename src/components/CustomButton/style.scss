@@ -9,6 +9,7 @@
 	align-items: center;
 	padding: 0.25rem 1rem;
 	min-width: 120px;
+	font-size: 0.875rem;
 	color: var(--button-text);
 	background-color: var(--button-background);
 	border: 2px solid var(--button-border);
@@ -16,6 +17,21 @@
 	transition-duration: 350ms;
 	transition-property: color, background-color, border-color;
 	transition-timing-function: var(--theme-timing-function);
+
+	&.button-secondary {
+		--button-background: var(--bs-gray-500);
+		--button-background-hover: #565e64;
+	}
+
+	&.button-danger {
+		--button-background: var(--bs-danger);
+		--button-background-hover: #a52834;
+	}
+
+	&.button-sm {
+		min-width: 60px;
+		padding: 0.25rem 0.5rem;
+	}
 
 	&.active,
 	&.is-loading,
@@ -28,7 +44,7 @@
 		pointer-events: none;
 	}
 
-	> .button-title {
+	> .is-loading.button-title {
 		margin: 0 0.25rem;
 	}
 

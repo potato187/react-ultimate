@@ -18,19 +18,7 @@ export const SIDEBAR_ROUTES = [
 		id: uuid(),
 		label: 'Manage Users',
 		icon: MdOutlineManageAccounts,
-		children: [
-			{
-				id: uuid(),
-				label: 'Create User',
-				to: ADMIN.MANAGE_USERS.CREATE_USER,
-				icon: MdOutlinePersonAdd,
-			},
-			{
-				id: uuid(),
-				label: 'View Users',
-				to: ADMIN.MANAGE_USERS.VIEW_USERS,
-				icon: FiUsers,
-			},
-		],
+		to: ADMIN.MANAGE_USERS.INDEX,
+		children: [],
 	},
 ];

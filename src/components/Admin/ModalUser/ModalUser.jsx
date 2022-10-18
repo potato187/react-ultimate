@@ -1,5 +1,4 @@
-import DefaultAvatarUser from '@/assets/images/user.png';
-import { checkIfFileIsCorrectType, checkIfFileIsTooBig, uuid, checkPassword, getToast } from '@/helpers';
+import { checkIfFileIsCorrectType, checkPassword, uuid } from '@/helpers';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
 import { Col, Form, Modal, Row } from 'react-bootstrap';
@@ -8,7 +7,7 @@ import * as yup from 'yup';
 import AvatarField from '../AvatarField';
 import CustomField from '../CustomField/CustomField';
 import SelectField from '../SelectField';
-import participantApi from '@/api/participantApi';
+
 import CustomButton from '../../CustomButton';
 
 const options = [
@@ -22,7 +21,7 @@ const options = [
 	},
 ];
 
-const ModalUser = ({ show: passShow = false, handleClose = null, ...props }) => {
+const ModalUser = ({ show: passShow = false, handleClose = null, onSubmit = null, ...props }) => {
 	const schema = yup.object().shape({
 		username: yup.string().required('Please fill name').min(3, '3 characters'),
 		email: yup.string().required('Please fill email').email('Your email is invalid'),
@@ -30,10 +29,8 @@ const ModalUser = ({ show: passShow = false, handleClose = null, ...props }) => 
 		role: yup.string().oneOf(['ADMIN', 'USER'], 'Please select role'),
 		userImage: yup
 			.mixed()
-			.nullable()
-			.default(null)
-			.test('fileType', 'The File is correct type', checkIfFileIsCorrectType)
-			.test('fileSize', 'The File is too large', checkIfFileIsTooBig),
+			.transform((value) => (value ? value : null))
+			.test('fileType', 'The File is correct type', checkIfFileIsCorrectType),
 	});
 
 	const {
@@ -53,28 +50,13 @@ const ModalUser = ({ show: passShow = false, handleClose = null, ...props }) => 
 			password: '',
 			email: '',
 			role: '',
-			userImage: '',
+			userImage: null,
 		},
 	});
 
 	React.useEffect(() => {
 		reset();
-		document.title = 'Manage User  |  Create User';
 	}, [isSubmitSuccessful]);
-
-	const onSubmit = async (data) => {
-		const formData = new FormData();
-		for (const name in data) {
-			if (name === 'userImage') {
-				formData.append(name, data[name][0]);
-			} else {
-				formData.append(name, data[name]);
-			}
-		}
-		const response = await participantApi.add(formData);
-		const { EC, EM } = response;
-		getToast(EC, EM);
-	};
 
 	const handleSetValue = (name, value) => {
 		setValue(name, value);
@@ -91,8 +73,8 @@ const ModalUser = ({ show: passShow = false, handleClose = null, ...props }) => 
 				<Modal.Header closeButton>
 					<Modal.Title>Add User</Modal.Title>
 				</Modal.Header>
-				<Modal.Body>
-					<Form onSubmit={handleSubmit(onSubmit)}>
+				<Form onSubmit={handleSubmit(onSubmit)}>
+					<Modal.Body>
 						<Row>
 							<Col md={4}>
 								<AvatarField
@@ -136,9 +118,8 @@ const ModalUser = ({ show: passShow = false, handleClose = null, ...props }) => 
 								<CustomButton isLoading={isSubmitting} type='submit' title='Submit' />
 							</Col>
 						</Row>
-					</Form>
-				</Modal.Body>
-				<Modal.Footer></Modal.Footer>
+					</Modal.Body>
+				</Form>
 			</Modal>
 		</>
 	);
