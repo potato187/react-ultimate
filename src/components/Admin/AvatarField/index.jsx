@@ -5,11 +5,12 @@ import React from 'react';
 import { Form } from 'react-bootstrap';
 import './style.scss';
 
-const AvatarField = ({ register, name, errors, isSubmitSuccessful, ...props }) => {
+const AvatarField = ({ register, name, errors, isSubmitSuccessful, disabled = false, ...props }) => {
 	const id = React.useId();
 	const [loading, setLoading] = React.useState(false);
 	const previewImage = React.useRef(DefaultAvatarUser);
 	const error = errors[name];
+	const classes = ['form-avatar', disabled ? 'disabled' : ''];
 
 	const fieldRegister = register(name, {
 		onChange: (e) => {
@@ -27,7 +28,7 @@ const AvatarField = ({ register, name, errors, isSubmitSuccessful, ...props }) =
 	}, [isSubmitSuccessful]);
 
 	return (
-		<div className='form-avatar' onClick={() => setLoading(true)}>
+		<div className={trimClassNames(classes)} onClick={() => setLoading(true)} {...props}>
 			<Form.Control hidden type='file' id={id} {...fieldRegister} />
 			<label className={trimClassNames(['form-avatar__media', `${loading ? 'loading' : ''}`])} htmlFor={id}>
 				<span className='form-avatar__shadow'>
@@ -35,7 +36,7 @@ const AvatarField = ({ register, name, errors, isSubmitSuccessful, ...props }) =
 						<img loading='lazy' width={512} height={512} src={previewImage.current} alt='' />
 					</span>
 				</span>
-				<div className='form-avatar__btn'>Change</div>
+				{!disabled && <div className='form-avatar__btn'>Change</div>}
 				<ErrorMessage
 					errors={errors}
 					name={name}

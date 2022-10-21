@@ -1,36 +1,39 @@
 import participantApi from '@/api/participantApi';
 import { getToast } from '@/helpers';
+import useToggle from '@/hooks/useToggle';
 import React from 'react';
 import { Breadcrumb, Col, Row } from 'react-bootstrap';
 import { MdDashboardCustomize } from 'react-icons/md';
 import CustomButton from '../../CustomButton';
-import ModalUser from '../ModalUser/ModalUser';
+import ModalBase from '../../ModalBase';
+import FormCreateUser from '../FormCreateUser';
+import FormViewAndEditUser from '../FormViewAndEditUser';
 import TableUser from '../TableUser';
 import './style.scss';
 
 const ManageUsers = () => {
 	const [users, setUsers] = React.useState([]);
-	const [toggle, setToggle] = React.useState(false);
-	const handleOpen = () => {
-		setToggle(true);
-	};
-	const handleClose = () => {
-		setToggle(false);
-	};
+	const [user, setUser] = React.useState({});
 
-	const handleCreateUser = async (data) => {
-		const formData = new FormData();
-		for (const name in data) {
-			if (name === 'userImage' && data[name] && data[name][0]) {
-				formData.append(name, data[name][0]);
-			} else {
-				formData.append(name, data[name]);
-			}
-		}
+	const { toggle, handleOpen, handleClose } = useToggle();
+	const { toggle: toggleProfile, handleToggle: handleToggleProfile } = useToggle();
+	const { toggle: mode, handleToggle: handleChangeMode } = useToggle();
+
+	const handleCreateUser = async (formData) => {
 		const response = await participantApi.create(formData);
 		const { EC, EM } = response;
 		getToast(EC, EM);
 	};
+
+	const handleUpdateUser = async (formData) => {
+		const response = await participantApi.update(formData);
+		const { EC, EM, DT } = response;
+		getToast(EC, EM);
+		if (EC === 0) {
+			setUser(DT);
+		}
+	};
+
 	const getAllUsers = async () => {
 		const response = await participantApi.getAll();
 		const { DT, EC, EM } = response;
@@ -38,6 +41,12 @@ const ManageUsers = () => {
 			setUsers(DT);
 		}
 	};
+
+	const handlePreviewUser = (currentUser) => {
+		setUser(currentUser);
+		handleToggleProfile(true);
+	};
+
 	React.useEffect(() => {
 		getAllUsers();
 	}, []);
@@ -68,12 +77,17 @@ const ManageUsers = () => {
 							</Row>
 						</div>
 						<div className='section-main'>
-							<TableUser users={users} />
+							<TableUser users={users} onView={handlePreviewUser} mode={mode} handleChangeMode={handleChangeMode} />
 						</div>
 					</div>
 				</div>
 			</div>
-			<ModalUser show={toggle} handleClose={handleClose} onSubmit={handleCreateUser} />
+			<ModalBase title='Add User' show={toggle} handleClose={handleClose}>
+				<FormCreateUser onSubmit={handleCreateUser} />
+			</ModalBase>
+			<ModalBase title='User Profile' show={toggleProfile} handleClose={handleToggleProfile}>
+				<FormViewAndEditUser user={user} onSubmit={handleUpdateUser} disabled={mode} />
+			</ModalBase>
 		</>
 	);
 };

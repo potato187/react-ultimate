@@ -18,6 +18,9 @@
 }
 
 .select-group {
+	&.disabled .form-control {
+		background-color: var(--bs-gray-200);
+	}
 	.form-control.focus {
 		border-color: var(--theme-text-color);
 	}

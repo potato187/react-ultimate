@@ -80,6 +80,11 @@ button {
 	}
 }
 
+.disabled {
+	pointer-events: none !important;
+	user-select: none !important;
+}
+
 @keyframes circleSpin {
 	0% {
 		transform: rotate(0);

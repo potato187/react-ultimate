@@ -1,10 +1,9 @@
 import React from 'react';
+import { useProSidebar } from 'react-pro-sidebar';
 import { Outlet } from 'react-router-dom';
 import NavSideBar from '../NavSideBar/NavSideBar';
-import { useProSidebar } from 'react-pro-sidebar';
 import { SIDEBAR_ROUTES } from '../Routes';
 import './style.scss';
-import ModalBase from '@/components/ModalBase/ModalBase';
 
 const Layout = () => {
 	const { collapseSidebar } = useProSidebar();

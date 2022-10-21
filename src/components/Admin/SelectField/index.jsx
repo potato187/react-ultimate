@@ -1,9 +1,10 @@
+import { trimClassNames } from '@/helpers';
+import useClickOutside from '@/hooks/useClickOutside';
 import { ErrorMessage } from '@hookform/error-message';
 import React from 'react';
 import { Form } from 'react-bootstrap';
 import { Controller } from 'react-hook-form';
 import { CSSTransition } from 'react-transition-group';
-import useClickOutside from '@/hooks/useClickOutside';
 import './style.scss';
 
 const RenderOptions = ({ options, toggle, handleSelect, handleClose, ...props }) => {
@@ -38,8 +39,11 @@ const RenderOptions = ({ options, toggle, handleSelect, handleClose, ...props })
 	);
 };
 
-const SelectField = ({ options = [], control, name, label, handleSetValue, ...props }) => {
+const SelectField = ({ options = [], control, name, label, disabled = false, handleSetValue, ...props }) => {
 	const id = React.useId();
+	const classes = ['form-group select-group', disabled ? 'disabled' : ''];
+
+	console.log(disabled);
 
 	const [toggle, setToggle] = React.useState(false);
 
@@ -61,16 +65,24 @@ const SelectField = ({ options = [], control, name, label, handleSetValue, ...pr
 				});
 
 				return (
-					<Form.Group className='form-group select-group' controlId={id}>
+					<Form.Group className={trimClassNames(classes)} controlId={id}>
 						<Form.Label>{label}</Form.Label>
 						<div ref={nodeRef}>
 							<Form.Control hidden {...field} />
 							<div
-								className={['form-control', `${toggle ? 'focus' : ''}`].join(' ')}
+								className={trimClassNames(['form-control', toggle ? 'focus' : ''])}
 								onClick={() => setToggle((prevState) => !prevState)}>
 								{field.value ? field.value : props.placeholder}
 							</div>
-							<RenderOptions toggle={toggle} options={options} handleSelect={handleSelect} handleClose={handleClose} />
+							{!disabled && (
+								<RenderOptions
+									toggle={toggle}
+									options={options}
+									handleSelect={handleSelect}
+									handleClose={handleClose}
+									disabled={disabled}
+								/>
+							)}
 						</div>
 						<ErrorMessage
 							errors={errors}

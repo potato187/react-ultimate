@@ -4,8 +4,22 @@ import { uuid } from '@/helpers';
 import CustomButton from '../../CustomButton';
 import './style.scss';
 
-const TableUser = ({ users = [], onView = null, onUpdate = null, onDelete = null, ...props }) => {
+const TableUser = ({
+	users = [],
+	onView = null,
+	onUpdate = null,
+	onDelete = null,
+	mode,
+	handleChangeMode,
+	...props
+}) => {
 	if (!users.length) return <></>;
+
+	const handleOnView = (currentUser, currentMode) => {
+		console.log(currentUser, currentMode);
+		handleChangeMode(currentMode);
+		onView(currentUser);
+	};
 
 	return (
 		<div className='table-responsive table-users'>
@@ -20,15 +34,23 @@ const TableUser = ({ users = [], onView = null, onUpdate = null, onDelete = null
 					</tr>
 				</thead>
 				<tbody>
-					{users.map(({ id, username, email, role }, index) => (
+					{users.map(({ id, username, email, role, image } = user, index) => (
 						<tr key={uuid()}>
 							<td className='td-fit'>{index + 1}</td>
 							<td>{username}</td>
 							<td>{role}</td>
-							<td>email</td>
+							<td>{email}</td>
 							<td className='td-fit'>
-								<CustomButton title='View' className='button-sm d-inline-block button-secondary' />
-								<CustomButton title='Update' className='button-sm d-inline-block mx-1' />
+								<CustomButton
+									title='View'
+									className='button-sm d-inline-block button-secondary'
+									onClick={() => handleOnView({ id, username, email, role, userImage: image }, true)}
+								/>
+								<CustomButton
+									title='Update'
+									className='button-sm d-inline-block mx-1'
+									onClick={() => handleOnView({ id, username, email, role, userImage: image }, false)}
+								/>
 								<CustomButton title='Delete' className='button-sm d-inline-block button-danger' />
 							</td>
 						</tr>
