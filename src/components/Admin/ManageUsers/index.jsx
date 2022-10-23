@@ -1,19 +1,22 @@
 import participantApi from '@/api/participantApi';
-import { getToast } from '@/helpers';
+import CustomButton from '@/components/CustomButton';
+import useAsyncFilters from '@/hooks/useAsyncFilters';
 import useToggle from '@/hooks/useToggle';
-import React from 'react';
+import ModalBase from '@/components/ModalBase';
+import Pagination from '@/components/Pagination';
+import React, { useState } from 'react';
 import { Breadcrumb, Col, Row } from 'react-bootstrap';
 import { MdDashboardCustomize } from 'react-icons/md';
-import CustomButton from '../../CustomButton';
-import ModalBase from '../../ModalBase';
 import FormCreateUser from '../FormCreateUser';
 import FormViewAndEditUser from '../FormViewAndEditUser';
 import TableUser from '../TableUser';
 import './style.scss';
 
 const ManageUsers = () => {
-	const [users, setUsers] = React.useState([]);
-	const [user, setUser] = React.useState({});
+	const [users, setUsers] = useState([]);
+	const [previewUser, setPreviewUser] = useState({});
+	const [pageCount, setPageCount] = useState(1);
+	const { queryParams, setQueryParams } = useAsyncFilters();
 
 	const { toggle, handleOpen, handleClose } = useToggle();
 	const { toggle: toggleProfile, handleToggle: handleToggleProfile } = useToggle();
@@ -21,35 +24,41 @@ const ManageUsers = () => {
 
 	const handleCreateUser = async (formData) => {
 		const response = await participantApi.create(formData);
-		const { EC, EM } = response;
-		getToast(EC, EM);
 	};
 
 	const handleUpdateUser = async (formData) => {
 		const response = await participantApi.update(formData);
-		const { EC, EM, DT } = response;
-		getToast(EC, EM);
-		if (EC === 0) {
-			setUser(DT);
-		}
-	};
-
-	const getAllUsers = async () => {
-		const response = await participantApi.getAll();
-		const { DT, EC, EM } = response;
-		if (EC === 0) {
-			setUsers(DT);
+		if (response) {
+			setPreviewUser(response);
+			setUsers((prevUsers) => {
+				const newUsers = [...prevUsers];
+				const index = newUsers.findIndex((user) => +response.id === user.id);
+				newUsers[index] = { ...newUsers[index], ...response };
+				return newUsers;
+			});
 		}
 	};
 
 	const handlePreviewUser = (currentUser) => {
-		setUser(currentUser);
+		setPreviewUser(currentUser);
 		handleToggleProfile(true);
 	};
 
+	const handleOnPageChange = (event) => {
+		const newQueryParams = { ...queryParams, page: +event.selected + 1 };
+		setQueryParams(newQueryParams);
+	};
+
 	React.useEffect(() => {
-		getAllUsers();
-	}, []);
+		(async () => {
+			const response = await participantApi.getFilter(queryParams);
+			const { EC, DT } = response;
+			if (EC === 0) {
+				setUsers(DT.users);
+				setPageCount(DT.totalPages);
+			}
+		})();
+	}, [queryParams]);
 
 	return (
 		<>
@@ -78,6 +87,11 @@ const ManageUsers = () => {
 						</div>
 						<div className='section-main'>
 							<TableUser users={users} onView={handlePreviewUser} mode={mode} handleChangeMode={handleChangeMode} />
+							<Pagination
+								pageRangeDisplayed={+queryParams.page}
+								pageCount={pageCount}
+								onPageChange={handleOnPageChange}
+							/>
 						</div>
 					</div>
 				</div>
@@ -86,7 +100,7 @@ const ManageUsers = () => {
 				<FormCreateUser onSubmit={handleCreateUser} />
 			</ModalBase>
 			<ModalBase title='User Profile' show={toggleProfile} handleClose={handleToggleProfile}>
-				<FormViewAndEditUser user={user} onSubmit={handleUpdateUser} disabled={mode} />
+				<FormViewAndEditUser user={previewUser} onSubmit={handleUpdateUser} disabled={mode} />
 			</ModalBase>
 		</>
 	);

@@ -1,6 +1,7 @@
+import { uuid } from '@/helpers';
 import React from 'react';
 import { Table } from 'react-bootstrap';
-import { uuid } from '@/helpers';
+import ReactPaginate from 'react-paginate';
 import CustomButton from '../../CustomButton';
 import './style.scss';
 
@@ -16,7 +17,6 @@ const TableUser = ({
 	if (!users.length) return <></>;
 
 	const handleOnView = (currentUser, currentMode) => {
-		console.log(currentUser, currentMode);
 		handleChangeMode(currentMode);
 		onView(currentUser);
 	};
@@ -38,8 +38,8 @@ const TableUser = ({
 						<tr key={uuid()}>
 							<td className='td-fit'>{index + 1}</td>
 							<td>{username}</td>
-							<td>{role}</td>
 							<td>{email}</td>
+							<td>{role}</td>
 							<td className='td-fit'>
 								<CustomButton
 									title='View'

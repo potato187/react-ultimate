@@ -1,0 +1,19 @@
+.pagination {
+	justify-content: center;
+	gap: 0.25rem;
+	.page-link {
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		width: 2rem;
+		height: 2rem;
+		font-size: 0.75rem;
+		font-weight: 500;
+		padding: 0 0;
+	}
+
+	.page-item:first-child .page-link,
+	.page-item:last-child .page-link {
+		border-radius: 0;
+	}
+}

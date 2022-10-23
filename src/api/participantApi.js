@@ -1,4 +1,6 @@
 import axiosClients from './axiosClient';
+import queryString from 'query-string';
+import { getToast } from '@/helpers';
 
 const participantApi = {
 	getAll() {
@@ -6,14 +8,27 @@ const participantApi = {
 		return axiosClients.get(url);
 	},
 
-	create(data) {
-		const url = '/participant';
-		return axiosClients.post(url, data);
+	async getFilter(params) {
+		const newParams = { ...params };
+		newParams.page = !params.page || params.page <= 0 ? 1 : params.page;
+		const response = await axiosClients('/participant', { params: newParams });
+		return response;
 	},
 
-	update(user) {
+	async create(formData) {
+		const url = '/participant';
+		const response = await axiosClients.post(url, formData);
+		const { EC, EM, DT } = response;
+		getToast(EC, EM);
+		return EC === 0 ? DT : null;
+	},
+
+	async update(user) {
 		const url = 'participant';
-		return axiosClients.put(url, user);
+		const response = await axiosClients.put(url, user);
+		const { EC, EM, DT } = response;
+		getToast(EC, EM);
+		return EC === 0 ? DT : null;
 	},
 };
 

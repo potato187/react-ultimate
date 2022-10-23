@@ -43,8 +43,6 @@ const SelectField = ({ options = [], control, name, label, disabled = false, han
 	const id = React.useId();
 	const classes = ['form-group select-group', disabled ? 'disabled' : ''];
 
-	console.log(disabled);
-
 	const [toggle, setToggle] = React.useState(false);
 
 	const handleClose = () => {
