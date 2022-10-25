@@ -1,6 +1,8 @@
+import DefaultAvatar from '@/assets/images/user.png';
+import { useImageBase64 } from '@/helpers';
 import { yupResolver } from '@hookform/resolvers/yup';
-import React from 'react';
-import { Col, Form, Modal, Row } from 'react-bootstrap';
+import React, { useEffect, useRef, useState } from 'react';
+import { Col, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import CustomButton from '../../CustomButton';
@@ -15,6 +17,8 @@ const FormViewAndEditUser = ({ title = 'Add Users', user = {}, disabled = false,
 		role: userSchema.role,
 	});
 
+	const previewImage = useRef(user.userImage ? useImageBase64(user.userImage) : DefaultAvatar);
+
 	const {
 		handleSubmit,
 		setValue,
@@ -28,6 +32,7 @@ const FormViewAndEditUser = ({ title = 'Add Users', user = {}, disabled = false,
 		mode: 'onChange',
 		resolver: yupResolver(schema),
 		defaultValues: {
+			email: '',
 			username: '',
 			role: '',
 			userImage: null,
@@ -46,16 +51,20 @@ const FormViewAndEditUser = ({ title = 'Add Users', user = {}, disabled = false,
 	const updateUser = (data) => {
 		const formData = new FormData();
 		for (const name in data) {
-			formData.append(name, data[name]);
+			if (name === 'userImage' && data[name] && data[name][0]) {
+				formData.append(name, data[name][0]);
+			} else {
+				formData.append(name, data[name]);
+			}
 		}
 		onSubmit(formData);
 	};
 
-	React.useEffect(() => {
+	useEffect(() => {
 		reset();
 	}, [isSubmitSuccessful]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (user && Object.entries(user).length > 0) {
 			for (let name in user) {
 				setValue(name, user[name]);
@@ -72,7 +81,8 @@ const FormViewAndEditUser = ({ title = 'Add Users', user = {}, disabled = false,
 						errors={errors}
 						name='userImage'
 						isSubmitSuccessful={isSubmitSuccessful}
-						disabled={disabled}
+						disabled={true}
+						defaultAvatarUser={previewImage.current}
 					/>
 				</Col>
 				<Col md={8}>
@@ -84,16 +94,16 @@ const FormViewAndEditUser = ({ title = 'Add Users', user = {}, disabled = false,
 						label='Full Name'
 						disabled={disabled}
 					/>
-					{disabled && (
-						<CustomField
-							control={control}
-							name='email'
-							type='email'
-							placeholder='Enter email'
-							label='Email address'
-							disabled={disabled}
-						/>
-					)}
+
+					<CustomField
+						control={control}
+						name='email'
+						type='email'
+						placeholder='Enter email'
+						label='Email address'
+						disabled={true}
+					/>
+
 					<SelectField
 						control={control}
 						name='role'

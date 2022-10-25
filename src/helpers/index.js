@@ -54,3 +54,5 @@ export const getToast = (EC = -1, EM = 'Has Error') => {
 };
 
 export const ableNull = (value) => typeOf(value) === 'null';
+
+export const useImageBase64 = (base) => 'data:image/png;base64, ' + base;

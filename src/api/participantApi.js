@@ -24,8 +24,18 @@ const participantApi = {
 	},
 
 	async update(user) {
-		const url = 'participant';
+		const url = '/participant';
 		const response = await axiosClients.put(url, user);
+		const { EC, EM, DT } = response;
+		getToast(EC, EM);
+		return EC === 0 ? DT : null;
+	},
+
+	async delete(userId) {
+		const url = '/participant';
+		const formData = new FormData();
+		formData.append('id', userId);
+		const response = await axiosClients.delete(url, { data: { id: userId } });
 		const { EC, EM, DT } = response;
 		getToast(EC, EM);
 		return EC === 0 ? DT : null;

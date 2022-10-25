@@ -14,28 +14,39 @@ import './style.scss';
 
 const ManageUsers = () => {
 	const [users, setUsers] = useState([]);
+	const [totalPage, setTotalPage] = useState(1);
 	const [previewUser, setPreviewUser] = useState({});
-	const [pageCount, setPageCount] = useState(1);
 	const { queryParams, setQueryParams } = useAsyncFilters();
 
 	const { toggle, handleOpen, handleClose } = useToggle();
 	const { toggle: toggleProfile, handleToggle: handleToggleProfile } = useToggle();
 	const { toggle: mode, handleToggle: handleChangeMode } = useToggle();
 
+	const handleGoToPage = (page) => {
+		const newQueryParams = { ...queryParams, page };
+		setQueryParams(newQueryParams);
+	};
+
 	const handleCreateUser = async (formData) => {
 		const response = await participantApi.create(formData);
+		handleGoToPage(1);
+	};
+
+	const handleDeleteUser = async (userId) => {
+		const response = await participantApi.delete(userId);
+		handleGoToPage(1);
 	};
 
 	const handleUpdateUser = async (formData) => {
 		const response = await participantApi.update(formData);
 		if (response) {
-			setPreviewUser(response);
 			setUsers((prevUsers) => {
 				const newUsers = [...prevUsers];
 				const index = newUsers.findIndex((user) => +response.id === user.id);
 				newUsers[index] = { ...newUsers[index], ...response };
 				return newUsers;
 			});
+			setPreviewUser((prevReviewUser) => ({ ...prevReviewUser, ...response }));
 		}
 	};
 
@@ -55,7 +66,7 @@ const ManageUsers = () => {
 			const { EC, DT } = response;
 			if (EC === 0) {
 				setUsers(DT.users);
-				setPageCount(DT.totalPages);
+				setTotalPage(DT.totalPages);
 			}
 		})();
 	}, [queryParams]);
@@ -86,12 +97,14 @@ const ManageUsers = () => {
 							</Row>
 						</div>
 						<div className='section-main'>
-							<TableUser users={users} onView={handlePreviewUser} mode={mode} handleChangeMode={handleChangeMode} />
-							<Pagination
-								pageRangeDisplayed={+queryParams.page}
-								pageCount={pageCount}
-								onPageChange={handleOnPageChange}
+							<TableUser
+								users={users}
+								mode={mode}
+								onView={handlePreviewUser}
+								onDelete={handleDeleteUser}
+								handleChangeMode={handleChangeMode}
 							/>
+							<Pagination pageOffset={+queryParams.page - 1} pageCount={totalPage} onPageChange={handleOnPageChange} />
 						</div>
 					</div>
 				</div>

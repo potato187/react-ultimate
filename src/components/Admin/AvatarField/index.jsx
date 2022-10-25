@@ -1,14 +1,22 @@
-import DefaultAvatarUser from '@/assets/images/user.png';
+import DefaultAvatar from '@/assets/images/user.png';
 import { checkIfFileIsCorrectType, trimClassNames } from '@/helpers';
 import { ErrorMessage } from '@hookform/error-message';
-import React from 'react';
+import { useId, useRef, useState, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import './style.scss';
 
-const AvatarField = ({ register, name, errors, isSubmitSuccessful, disabled = false, ...props }) => {
-	const id = React.useId();
-	const [loading, setLoading] = React.useState(false);
-	const previewImage = React.useRef(DefaultAvatarUser);
+const AvatarField = ({
+	register,
+	name,
+	errors,
+	isSubmitSuccessful,
+	defaultAvatarUser = DefaultAvatar,
+	disabled = false,
+	...props
+}) => {
+	const id = useId();
+	const [loading, setLoading] = useState(false);
+	const previewImage = useRef(defaultAvatarUser);
 	const error = errors[name];
 	const classes = ['form-avatar', disabled ? 'disabled' : ''];
 
@@ -21,11 +29,15 @@ const AvatarField = ({ register, name, errors, isSubmitSuccessful, disabled = fa
 		},
 	});
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (isSubmitSuccessful) {
-			previewImage.current = DefaultAvatarUser;
+			previewImage.current = defaultAvatarUser;
 		}
 	}, [isSubmitSuccessful]);
+
+	useEffect(() => {
+		previewImage.current = defaultAvatarUser;
+	}, []);
 
 	return (
 		<div className={trimClassNames(classes)} onClick={() => setLoading(true)} {...props}>

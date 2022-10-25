@@ -5,20 +5,18 @@ import ReactPaginate from 'react-paginate';
 import CustomButton from '../../CustomButton';
 import './style.scss';
 
-const TableUser = ({
-	users = [],
-	onView = null,
-	onUpdate = null,
-	onDelete = null,
-	mode,
-	handleChangeMode,
-	...props
-}) => {
+const TableUser = ({ users = [], onView = null, onDelete = null, mode, handleChangeMode, ...props }) => {
 	if (!users.length) return <></>;
 
 	const handleOnView = (currentUser, currentMode) => {
 		handleChangeMode(currentMode);
 		onView(currentUser);
+	};
+
+	const handleOnDelete = (userId) => {
+		if (onDelete) {
+			onDelete(userId);
+		}
 	};
 
 	return (
@@ -51,7 +49,11 @@ const TableUser = ({
 									className='button-sm d-inline-block mx-1'
 									onClick={() => handleOnView({ id, username, email, role, userImage: image }, false)}
 								/>
-								<CustomButton title='Delete' className='button-sm d-inline-block button-danger' />
+								<CustomButton
+									title='Delete'
+									className='button-sm d-inline-block button-danger'
+									onClick={() => handleOnDelete(id)}
+								/>
 							</td>
 						</tr>
 					))}
