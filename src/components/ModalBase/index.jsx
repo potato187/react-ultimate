@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
+import './style.scss';
 
 const ModalBase = ({ title = 'Add Users', show: passShow = false, handleClose, children, ...props }) => {
 	return (
@@ -7,7 +8,7 @@ const ModalBase = ({ title = 'Add Users', show: passShow = false, handleClose, c
 			<Modal.Header closeButton>
 				<Modal.Title>{title}</Modal.Title>
 			</Modal.Header>
-			<Modal.Body>{children}</Modal.Body>
+			{children}
 		</Modal>
 	);
 };

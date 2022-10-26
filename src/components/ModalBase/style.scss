@@ -1,0 +1,21 @@
+.modal {
+	--modal-padding: 1.25rem;
+	--modal-title: 1.25rem;
+
+	&.modal-size--md {
+		--modal-padding: 0.75rem;
+		--modal-title: 1rem;
+	}
+
+	.modal-content {
+		.modal-header .modal-title {
+			font-size: var(--modal-title);
+		}
+
+		.modal-footer,
+		.modal-header,
+		.modal-body {
+			padding: var(--modal-padding);
+		}
+	}
+}

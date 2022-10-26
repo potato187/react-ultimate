@@ -1,13 +1,18 @@
 import App from '@/App';
 import Admin from '@/components/Admin';
 import ManageUsers from '@/components/Admin/ManageUsers';
+import Auth from '@/components/Auth';
+import Login from '@/components/Auth/Login';
+import SignUp from '@/components/Auth/SignUp';
 import HomePage from '@/components/HomePage/HomePage';
 import Users from '@/components/Users/Users';
 import { PATH_ROUTES } from '@/constant';
 import { uuid } from '@/helpers';
-import Dashboard from '../components/Admin/Dashboard/Dashboard';
+import Dashboard from '@/components/Admin/Dashboard/Dashboard';
+import RedirectLogin from '../components/Auth/RedirectLogin';
+import { Navigate } from 'react-router-dom';
 
-const { ADMIN } = PATH_ROUTES;
+const { ADMIN, AUTH } = PATH_ROUTES;
 
 export const ROUTES = [
 	{
@@ -16,13 +21,9 @@ export const ROUTES = [
 		path: '/',
 		children: [
 			{
-				index: true,
-				id: uuid(),
-				Component: HomePage,
-			},
-			{
 				id: uuid(),
 				path: '*',
+				index: true,
 				Component: HomePage,
 			},
 			{
@@ -48,6 +49,29 @@ export const ROUTES = [
 				id: uuid(),
 				path: ADMIN.MANAGE_USERS.INDEX,
 				Component: ManageUsers,
+			},
+		],
+	},
+	{
+		id: uuid(),
+		path: AUTH.INDEX,
+		Component: Auth,
+		children: [
+			{
+				id: uuid(),
+				path: '*',
+				index: true,
+				Component: () => <Navigate replace to={AUTH.LOGIN} />,
+			},
+			{
+				id: uuid(),
+				path: AUTH.LOGIN,
+				Component: Login,
+			},
+			{
+				id: uuid(),
+				path: AUTH.SIGN_UP,
+				Component: SignUp,
 			},
 		],
 	},

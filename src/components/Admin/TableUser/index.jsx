@@ -5,7 +5,15 @@ import ReactPaginate from 'react-paginate';
 import CustomButton from '../../CustomButton';
 import './style.scss';
 
-const TableUser = ({ users = [], onView = null, onDelete = null, mode, handleChangeMode, ...props }) => {
+const TableUser = ({
+	users = [],
+	onView = null,
+	onDelete = null,
+	mode,
+	handleChangeMode,
+	setPreviewUser,
+	...props
+}) => {
 	if (!users.length) return <></>;
 
 	const handleOnView = (currentUser, currentMode) => {
@@ -13,10 +21,9 @@ const TableUser = ({ users = [], onView = null, onDelete = null, mode, handleCha
 		onView(currentUser);
 	};
 
-	const handleOnDelete = (userId) => {
-		if (onDelete) {
-			onDelete(userId);
-		}
+	const handleOnDelete = (user) => {
+		onDelete && onDelete(true);
+		setPreviewUser && setPreviewUser(user);
 	};
 
 	return (
@@ -32,7 +39,7 @@ const TableUser = ({ users = [], onView = null, onDelete = null, mode, handleCha
 					</tr>
 				</thead>
 				<tbody>
-					{users.map(({ id, username, email, role, image } = user, index) => (
+					{users.map(({ id, username, email, role, image }, index) => (
 						<tr key={uuid()}>
 							<td className='td-fit'>{index + 1}</td>
 							<td>{username}</td>
@@ -52,7 +59,7 @@ const TableUser = ({ users = [], onView = null, onDelete = null, mode, handleCha
 								<CustomButton
 									title='Delete'
 									className='button-sm d-inline-block button-danger'
-									onClick={() => handleOnDelete(id)}
+									onClick={() => handleOnDelete({ id, username, email, role, image })}
 								/>
 							</td>
 						</tr>

@@ -8,4 +8,9 @@ export const PATH_ROUTES = {
 			INDEX: 'manage-users',
 		},
 	},
+	AUTH: {
+		INDEX: 'auth',
+		LOGIN: 'login',
+		SIGN_UP: 'sign-up',
+	},
 };

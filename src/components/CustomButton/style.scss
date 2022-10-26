@@ -2,7 +2,9 @@
 	--button-background: var(--theme-primary);
 	--button-background-hover: var(--theme-primary-hover);
 	--button-border: transparent;
+	--button-border-radius: 0.25rem;
 	--button-text: var(--bs-white);
+	--button-text-hover: var(--bs-white);
 
 	display: inline-flex;
 	justify-content: center;
@@ -12,8 +14,8 @@
 	font-size: 0.875rem;
 	color: var(--button-text);
 	background-color: var(--button-background);
-	border: 2px solid var(--button-border);
-	border-radius: 0.25rem;
+	border: 1px solid var(--button-border);
+	border-radius: var(--button-border-radius);
 	transition-duration: 350ms;
 	transition-property: color, background-color, border-color;
 	transition-timing-function: var(--theme-timing-function);
@@ -28,6 +30,21 @@
 		--button-background-hover: #a52834;
 	}
 
+	&.button-warning {
+		--button-background: #ffc107;
+		--button-background-hover: #ffca2c;
+		--button-text: #000000;
+		--button-text-hover: #000000;
+	}
+
+	&.button-outline {
+		--button-background: var(--bs-white);
+		--button-background-hover: #000000;
+		--button-text: #000000;
+		--button-border: #000000;
+		--button-border-radius: 0;
+	}
+
 	&.button-sm {
 		min-width: 60px;
 		padding: 0.25rem 0.5rem;
@@ -37,6 +54,7 @@
 	&.is-loading,
 	&:hover {
 		background-color: var(--button-background-hover);
+		color: var(--button-text-hover);
 	}
 
 	&[disabled],

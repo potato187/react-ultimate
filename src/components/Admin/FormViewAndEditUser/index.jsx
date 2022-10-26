@@ -1,8 +1,8 @@
 import DefaultAvatar from '@/assets/images/user.png';
 import { useImageBase64 } from '@/helpers';
 import { yupResolver } from '@hookform/resolvers/yup';
-import React, { useEffect, useRef, useState } from 'react';
-import { Col, Form, Row } from 'react-bootstrap';
+import React, { useEffect, useRef } from 'react';
+import { Col, Form, Modal, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import CustomButton from '../../CustomButton';
@@ -73,50 +73,52 @@ const FormViewAndEditUser = ({ title = 'Add Users', user = {}, disabled = false,
 	}, [user]);
 
 	return (
-		<Form onSubmit={handleSubmit(updateUser)}>
-			<Row>
-				<Col md={4}>
-					<AvatarField
-						register={register}
-						errors={errors}
-						name='userImage'
-						isSubmitSuccessful={isSubmitSuccessful}
-						disabled={true}
-						defaultAvatarUser={previewImage.current}
-					/>
-				</Col>
-				<Col md={8}>
-					<CustomField
-						control={control}
-						name='username'
-						type='text'
-						placeholder='Enter your name'
-						label='Full Name'
-						disabled={disabled}
-					/>
+		<Modal.Body>
+			<Form onSubmit={handleSubmit(updateUser)}>
+				<Row>
+					<Col md={4}>
+						<AvatarField
+							register={register}
+							errors={errors}
+							name='userImage'
+							isSubmitSuccessful={isSubmitSuccessful}
+							disabled={true}
+							defaultAvatarUser={previewImage.current}
+						/>
+					</Col>
+					<Col md={8}>
+						<CustomField
+							control={control}
+							name='username'
+							type='text'
+							placeholder='Enter your name'
+							label='Full Name'
+							disabled={disabled}
+						/>
 
-					<CustomField
-						control={control}
-						name='email'
-						type='email'
-						placeholder='Enter email'
-						label='Email address'
-						disabled={true}
-					/>
+						<CustomField
+							control={control}
+							name='email'
+							type='email'
+							placeholder='Enter email'
+							label='Email address'
+							disabled={true}
+						/>
 
-					<SelectField
-						control={control}
-						name='role'
-						placeholder='Select Role'
-						label='Role'
-						options={Role}
-						handleSetValue={handleSetValue}
-						disabled={disabled}
-					/>
-					{!disabled && <CustomButton isLoading={isSubmitting} type='submit' title='Update User' />}
-				</Col>
-			</Row>
-		</Form>
+						<SelectField
+							control={control}
+							name='role'
+							placeholder='Select Role'
+							label='Role'
+							options={Role}
+							handleSetValue={handleSetValue}
+							disabled={disabled}
+						/>
+						{!disabled && <CustomButton isLoading={isSubmitting} type='submit' title='Update User' />}
+					</Col>
+				</Row>
+			</Form>
+		</Modal.Body>
 	);
 };
 
