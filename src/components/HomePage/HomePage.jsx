@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row } from 'react-bootstrap';
-import videoHomePage from '@/assets/videos/video-home-page.mp4';
+import videoHomePage from '@assets/videos/video-home-page.mp4';
 import './style.scss';
 
 const HomePage = () => {

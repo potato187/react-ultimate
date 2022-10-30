@@ -1,19 +1,20 @@
-import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import * as path from 'path';
+import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [react()],
 	resolve: {
-		alias: [
-			{ find: '@', replacement: path.resolve(__dirname, './src') },
-			{ find: '@/components', replacement: path.resolve(__dirname, './src/components') },
-			{ find: '@/routes', replacement: path.resolve(__dirname, './src/routes') },
-			{ find: '@/helpers', replacement: path.resolve(__dirname, './src/helpers') },
-			{ find: '@/hooks', replacement: path.resolve(__dirname, './src/hooks') },
-			{ find: '@/assets', replacement: path.resolve(__dirname, './src/assets') },
-			{ find: '@/api', replacement: path.resolve(__dirname, './src/api') },
-		],
+		alias: {
+			'@': path.resolve(__dirname, './src'),
+			'@assets': path.resolve(__dirname, './src/assets'),
+			'@api': path.resolve(__dirname, './src/api'),
+			'@components': path.resolve(__dirname, './src/components'),
+			'@constant': path.resolve(__dirname, './src/constant'),
+			'@helpers': path.resolve(__dirname, './src/helpers'),
+			'@hooks': path.resolve(__dirname, './src/hooks'),
+			'@routes': path.resolve(__dirname, './src/routes'),
+		},
 	},
 });

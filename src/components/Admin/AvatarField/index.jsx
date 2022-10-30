@@ -1,7 +1,7 @@
-import DefaultAvatar from '@/assets/images/user.png';
 import { checkIfFileIsCorrectType, trimClassNames } from '@/helpers';
+import DefaultAvatar from '@assets/images/user.png';
 import { ErrorMessage } from '@hookform/error-message';
-import { useId, useRef, useState, useEffect } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import './style.scss';
 

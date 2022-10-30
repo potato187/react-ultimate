@@ -1,9 +1,9 @@
+import CustomButton from '@components/CustomButton';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
 import { Col, Form, Modal, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import CustomButton from '../../CustomButton';
 import AvatarField from '../AvatarField';
 import CustomField from '../CustomField/CustomField';
 import { Role, userSchema } from '../schema';
