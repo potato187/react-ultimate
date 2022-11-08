@@ -1,13 +1,13 @@
-import CustomButton from '@components/CustomButton';
-import { yupResolver } from '@hookform/resolvers/yup';
+import {Role, userSchema} from '@schema';
+import ThemeButton from '@components/ThemeButton';
+import {yupResolver} from '@hookform/resolvers/yup';
 import React from 'react';
-import { Col, Form, Modal, Row } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
+import {Col, Form, Modal, Row} from 'react-bootstrap';
+import {useForm} from 'react-hook-form';
 import * as yup from 'yup';
 import AvatarField from '../AvatarField';
-import CustomField from '../CustomField/CustomField';
-import { Role, userSchema } from '../schema';
 import SelectField from '../SelectField';
+import CustomField from '@components/CustomField';
 
 const FormCreateUser = ({ onSubmit = null, ...props }) => {
 	const schema = yup.object().shape({ ...userSchema });
@@ -19,8 +19,7 @@ const FormCreateUser = ({ onSubmit = null, ...props }) => {
 		register,
 		reset,
 		control,
-		formState: { isSubmitting, isSubmitSuccessful },
-		formState: { errors },
+		formState: { isSubmitting, isSubmitSuccessful, errors },
 	} = useForm({
 		mode: 'onChange',
 		resolver: yupResolver(schema),
@@ -37,14 +36,11 @@ const FormCreateUser = ({ onSubmit = null, ...props }) => {
 		reset();
 	}, [isSubmitSuccessful]);
 
-	const handleSetValue = (name, value) => {
+	const handleSetValue = async(name, value) => {
 		setValue(name, value);
-		trigger(name);
+		await trigger(name);
 	};
 
-	const handleLoading = (newState) => {
-		setLoading(newState);
-	};
 
 	const createUser = (data) => {
 		const formData = new FormData();
@@ -90,7 +86,7 @@ const FormCreateUser = ({ onSubmit = null, ...props }) => {
 							options={Role}
 							handleSetValue={handleSetValue}
 						/>
-						<CustomButton isLoading={isSubmitting} type='submit' title='Create User' />
+						<ThemeButton isLoading={isSubmitting} data-button={`${isSubmitting ? 'loading' : ''}`} type='submit' title='Create User' />
 					</Col>
 				</Row>
 			</Form>

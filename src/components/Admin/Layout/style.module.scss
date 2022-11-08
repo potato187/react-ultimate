@@ -1,0 +1,32 @@
+.admin {
+	height: 100vh;
+	max-height: 100%;
+	display: flex;
+	flex-flow: column nowrap;
+	.admin-header {
+		height: 80px;
+		flex-shrink: 0;
+		background-color: #ccc;
+	}
+	.admin-container {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		grid-template-rows: 1fr;
+		grid-gap: 0;
+		flex-grow: 1;
+		overflow: hidden;
+
+		.admin-sidebar {
+			.admin-nav-sidebar {
+				height: 100%;
+			}
+		}
+
+		.admin-main {
+			padding: 1.25rem;
+			background-color: var(--theme-neutral-50);
+			overflow-y: auto;
+		}
+	}
+}
+

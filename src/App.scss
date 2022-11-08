@@ -16,6 +16,13 @@
 
 	--theme-font-serif: Roboto, sans-serif;
 	--theme-font-size-base: 0.875rem;
+
+	--theme-font-size-1: 2rem;
+	--theme-font-size-2: 1.75rem;
+	--theme-font-size-3: 1.5rem;
+	--theme-font-size-4: 1.25rem;
+	--theme-font-size-5: 1.125rem;
+	--theme-font-size-6: 1rem;
 }
 
 body {
@@ -85,20 +92,15 @@ button {
 	user-select: none !important;
 }
 
-@keyframes circleSpin {
-	0% {
-		transform: rotate(0);
-	}
-	100% {
-		transform: rotate(1turn);
-	}
-}
+.button-link {
+	display: inline;
+	background-color: transparent;
+	border: 1px solid transparent;
+	text-decoration: underline;
 
-@keyframes spin360 {
-	0% {
-		transform: translate(-50%, -50%) rotate(0);
-	}
-	100% {
-		transform: translate(-50%, -50%) rotate(1turn);
+	color: #282829;
+	font-size: 0.875rem;
+	&:hover {
+		color: #282829cc;
 	}
 }

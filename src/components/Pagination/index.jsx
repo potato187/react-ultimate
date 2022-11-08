@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
 import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
-import './style.scss';
+import style from './style.module.scss';
 
 const Pagination = ({
 	pageRangeDisplayed = 4,
@@ -20,17 +20,17 @@ const Pagination = ({
 			forcePage={pageOffset}
 			previousLabel={<GrFormPrevious size='1.5em' />}
 			renderOnZeroPageCount={renderOnZeroPageCount}
-			containerClassName='pagination'
+			containerClassName={`pagination ${style['pagination']}`}
 			activeClassName='active'
-			pageClassName='page-item'
-			pageLinkClassName='page-link'
-			previousClassName='page-item'
-			previousLinkClassName='page-link'
-			nextClassName='page-item'
-			nextLinkClassName='page-link'
+			pageClassName={`page-item ${style['page-item']}`}
+			pageLinkClassName={`page-link ${style['page-link']}`}
+			previousClassName={`page-item ${style['page-item']}`}
+			previousLinkClassName={`page-link ${style['page-link']}`}
+			nextClassName={`page-item ${style['page-item']}`}
+			nextLinkClassName={`page-link ${style['page-link']}`}
 			breakLabel='...'
-			breakClassName='page-item'
-			breakLinkClassName='page-link'
+			breakClassName={`page-item ${style['page-item']}`}
+			breakLinkClassName={`page-link ${style['page-link']}`}
 		/>
 	);
 };

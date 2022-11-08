@@ -1,35 +1,39 @@
 import App from '@/App';
 import Admin from '@components/Admin';
-import Dashboard from '@components/Admin/Dashboard/Dashboard';
+import Dashboard from '@components/Admin/Dashboard';
 import ManageUsers from '@components/Admin/ManageUsers';
 import Auth from '@components/Auth';
-import Login from '@components/Auth/Login';
-import SignUp from '@components/Auth/SignUp';
-import HomePage from '@components/HomePage/HomePage';
-import Users from '@components/Users/Users';
-import { PATH_ROUTES } from '@constant';
-import { uuid } from '@helpers';
-import { Navigate } from 'react-router-dom';
+import LoginPage from '@components/Auth/LoginPage';
+import RegisterPage from '@components/Auth/RegisterPage';
+import HomePage from '@components/HomePage';
+import Users from '@components/Users';
+import {PATH_ROUTES} from '@constant';
+import {uuid} from '@helpers';
+import {Navigate} from 'react-router-dom';
 
-const { ADMIN, AUTH } = PATH_ROUTES;
+const {HOME_PAGE, ADMIN, AUTH } = PATH_ROUTES;
 
 export const ROUTES = [
 	{
 		id: uuid(),
 		Component: App,
-		path: '/',
 		children: [
 			{
 				id: uuid(),
-				path: '*',
+				path: HOME_PAGE.USER,
+				Component: Users,
+			},
+			{
+				id: uuid(),
 				index: true,
+				path: HOME_PAGE.HOME,
 				Component: HomePage,
 			},
 			{
 				id: uuid(),
-				path: 'users',
-				Component: Users,
-				children: [],
+				path: '*',
+				index: true,
+				Component: () => <Navigate replace to={HOME_PAGE.HOME} />,
 			},
 		],
 	},
@@ -40,9 +44,14 @@ export const ROUTES = [
 		children: [
 			{
 				id: uuid(),
+				path: '*',
+				index: true,
+				Component: () => <Navigate replace to={ADMIN.MANAGE_USERS.INDEX} />,
+			},
+			{
+				id: uuid(),
 				path: ADMIN.DASHBOARD.INDEX,
 				Component: Dashboard,
-				index: true,
 			},
 			{
 				id: uuid(),
@@ -65,12 +74,12 @@ export const ROUTES = [
 			{
 				id: uuid(),
 				path: AUTH.LOGIN,
-				Component: Login,
+				Component: LoginPage,
 			},
 			{
 				id: uuid(),
 				path: AUTH.SIGN_UP,
-				Component: SignUp,
+				Component: RegisterPage,
 			},
 		],
 	},

@@ -5,7 +5,8 @@ import React from 'react';
 import { Form } from 'react-bootstrap';
 import { Controller } from 'react-hook-form';
 import { CSSTransition } from 'react-transition-group';
-import './style.scss';
+import style from './style.module.scss';
+import "./alert.scss"
 
 const RenderOptions = ({ options, toggle, handleSelect, handleClose, ...props }) => {
 	const nodeRef = React.useRef(null);
@@ -19,13 +20,13 @@ const RenderOptions = ({ options, toggle, handleSelect, handleClose, ...props })
 	};
 
 	return (
-		<div className='select-dropdown'>
+		<div className={style['select-dropdown']}>
 			<CSSTransition
 				in={toggle}
 				nodeRef={nodeRef}
 				timeout={500}
 				classNames='alert'
-				className='select-dropdown__list'
+				className={style['select-dropdown__list']}
 				unmountOnExit>
 				<ul className='list-unstyled mb-0 ' ref={nodeRef}>
 					{options.map(({ key, value }) => (
@@ -41,7 +42,6 @@ const RenderOptions = ({ options, toggle, handleSelect, handleClose, ...props })
 
 const SelectField = ({ options = [], control, name, label, disabled = false, handleSetValue, ...props }) => {
 	const id = React.useId();
-	const classes = ['form-group select-group', disabled ? 'disabled' : ''];
 
 	const [toggle, setToggle] = React.useState(false);
 
@@ -63,12 +63,12 @@ const SelectField = ({ options = [], control, name, label, disabled = false, han
 				});
 
 				return (
-					<Form.Group className={trimClassNames(classes)} controlId={id}>
+					<Form.Group className={`form-group ${style['select-group']}`} data-disabled={disabled} controlId={id}>
 						<Form.Label>{label}</Form.Label>
 						<div ref={nodeRef}>
 							<Form.Control hidden {...field} />
 							<div
-								className={trimClassNames(['form-control', toggle ? 'focus' : ''])}
+								className={`form-control ${style['form-control']}`}
 								onClick={() => setToggle((prevState) => !prevState)}>
 								{field.value ? field.value : props.placeholder}
 							</div>

@@ -1,0 +1,40 @@
+.section-breadcrumb {
+  display: flex;
+  flex-flow: row nowrap;
+  margin-bottom: 1.25rem;
+
+  .breadcrumb-icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+    color: var(--theme-white);
+    background-color: rgb(37 99 235);
+    border-radius: 0.25rem;
+  }
+  .breadcrumb-main {
+    flex-grow: 1;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    padding-left: 1rem;
+    > * {
+      margin-bottom: 0;
+    }
+    > h1 {
+      font-size: 1rem;
+    }
+
+    > .breadcrumb > [class~='breadcrumb'] {
+      margin-bottom: 0;
+
+      > li > a {
+        text-decoration: none;
+        color: var(--theme-gray-900);
+      }
+    }
+  }
+}

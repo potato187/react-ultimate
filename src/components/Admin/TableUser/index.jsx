@@ -1,9 +1,8 @@
-import { uuid } from '@/helpers';
+import {uuid} from '@/helpers';
 import React from 'react';
-import { Table } from 'react-bootstrap';
-import ReactPaginate from 'react-paginate';
-import CustomButton from '../../CustomButton';
-import './style.scss';
+import {Table} from 'react-bootstrap';
+import style from './style.module.scss';
+import ThemeButton from "@components/ThemeButton";
 
 const TableUser = ({
 	users = [],
@@ -27,8 +26,8 @@ const TableUser = ({
 	};
 
 	return (
-		<div className='table-responsive table-users'>
-			<Table striped bordered hover {...props}>
+		<div className={`table-responsive ${style['table-users']}`}>
+			<Table striped bordered hover className={style['table']} {...props}>
 				<thead>
 					<tr>
 						<th className='text-center'>No.</th>
@@ -41,24 +40,27 @@ const TableUser = ({
 				<tbody>
 					{users.map(({ id, username, email, role, image }, index) => (
 						<tr key={uuid()}>
-							<td className='td-fit'>{index + 1}</td>
+							<td className={style['td-fit']}>{index + 1}</td>
 							<td>{username}</td>
 							<td>{email}</td>
 							<td>{role}</td>
-							<td className='td-fit'>
-								<CustomButton
+							<td className={style['td-fit']}>
+								<ThemeButton
 									title='View'
-									className='button-sm d-inline-block button-secondary'
+									data-button='secondary sm'
+									className='d-line-block'
 									onClick={() => handleOnView({ id, username, email, role, userImage: image }, true)}
 								/>
-								<CustomButton
+								<ThemeButton
 									title='Update'
-									className='button-sm d-inline-block mx-1'
+									data-button='sm'
+									className='d-inline-block mx-1'
 									onClick={() => handleOnView({ id, username, email, role, userImage: image }, false)}
 								/>
-								<CustomButton
+								<ThemeButton
 									title='Delete'
-									className='button-sm d-inline-block button-danger'
+									data-button='danger sm'
+									className='d-inline-block'
 									onClick={() => handleOnDelete({ id, username, email, role, image })}
 								/>
 							</td>

@@ -39,7 +39,7 @@ export const checkIfFileIsCorrectType = (files) => {
 };
 
 export const checkPassword = (str) => {
-	var regex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+	const regex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 	return regex.test(str);
 };
 

@@ -15,7 +15,7 @@ export const Role = [
 export const userSchema = {
 	username: yup.string().required('Full name is required').min(3, '3 characters'),
 	email: yup.string().required('Email is required').email('Your email is invalid'),
-	password: yup.string().required('Password is required').test('password', 'Password is weak', checkPassword),
+	password: yup.string().required('Password is required').min(6, 'Password must be at least 6 characters'),
 	role: yup
 		.string()
 		.test('typeRole', 'Role is invalid', (value) => Role.find((role) => role.value === value))

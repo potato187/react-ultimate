@@ -1,27 +1,8 @@
-.alert-enter {
-	opacity: 0;
-	transform: translate3d(0, -0.125rem, 0);
-}
-.alert-enter-active {
-	opacity: 1;
-	transform: translate3d(0, 0, 0);
-	transition: opacity 300ms, transform 300ms;
-}
-
-.alert-exit {
-	opacity: 1;
-}
-.alert-exit-active {
-	opacity: 0;
-	transform: translate3d(0, -0.125rem, 0);
-	transition: opacity 300ms, transform 300ms;
-}
-
 .select-group {
-	&.disabled .form-control {
+	&[data-disabled=true] .form-control {
 		background-color: var(--bs-gray-200);
 	}
-	.form-control.focus {
+	.form-control[data-focus=true] {
 		border-color: var(--theme-text-color);
 	}
 	.select-dropdown {
@@ -39,7 +20,7 @@
 			border-radius: 0 0 0.25rem 0.25rem;
 			border: 1px solid var(--bs-gray-400);
 			background-color: #fff;
-			box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+			box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
 			> li {
 				display: block;
 				padding: 0.25rem 1rem;

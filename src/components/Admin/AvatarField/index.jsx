@@ -3,7 +3,7 @@ import DefaultAvatar from '@assets/images/user.png';
 import { ErrorMessage } from '@hookform/error-message';
 import { useEffect, useId, useRef, useState } from 'react';
 import { Form } from 'react-bootstrap';
-import './style.scss';
+import style from './style.module.scss';
 
 const AvatarField = ({
 	register,
@@ -18,7 +18,6 @@ const AvatarField = ({
 	const [loading, setLoading] = useState(false);
 	const previewImage = useRef(defaultAvatarUser);
 	const error = errors[name];
-	const classes = ['form-avatar', disabled ? 'disabled' : ''];
 
 	const fieldRegister = register(name, {
 		onChange: (e) => {
@@ -40,19 +39,19 @@ const AvatarField = ({
 	}, []);
 
 	return (
-		<div className={trimClassNames(classes)} onClick={() => setLoading(true)} {...props}>
+		<div className={style['form-avatar']} {...props} >
 			<Form.Control hidden type='file' id={id} {...fieldRegister} />
-			<label className={trimClassNames(['form-avatar__media', `${loading ? 'loading' : ''}`])} htmlFor={id}>
-				<span className='form-avatar__shadow'>
-					<span className='form-avatar__main'>
-						<img loading='lazy' width={512} height={512} src={previewImage.current} alt='' />
+			<label className={style['form-avatar__media']} data-loading={loading} onClick={() => setLoading(true)} htmlFor={id}>
+				<span className={style['form-avatar__shadow']}>
+					<span className={style['form-avatar__main']}>
+						<img loading='lazy' width="512" height="512" src={previewImage.current} alt='' />
 					</span>
 				</span>
-				{!disabled && <div className='form-avatar__btn'>Change</div>}
+				{!disabled && <div className={style['form-avatar__btn']}>Change</div>}
 				<ErrorMessage
 					errors={errors}
 					name={name}
-					render={({ message }) => <div className='invalid-message'>{message}</div>}
+					render={({ message }) => <div className={style['invalid-message']}>{message}</div>}
 				/>
 			</label>
 		</div>

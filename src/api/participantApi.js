@@ -1,6 +1,6 @@
 import axiosClients from './axiosClient';
 import queryString from 'query-string';
-import { getToast } from '@/helpers';
+import { getToast } from '@helpers';
 
 const participantApi = {
 	getAll() {

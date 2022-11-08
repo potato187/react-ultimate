@@ -1,12 +1,11 @@
-import { FaTachometerAlt } from 'react-icons/fa';
-import { Menu, MenuItem, Sidebar, SubMenu } from 'react-pro-sidebar';
-import { Link } from 'react-router-dom';
-import './style.scss';
+import {Menu, MenuItem, Sidebar, SubMenu} from 'react-pro-sidebar';
+import {Link} from 'react-router-dom';
+import style from './style.module.scss';
 
 const RenderNavSideBar = ({ id, children = [], label, icon: Icon, to, ...props }) => {
 	if (!children.length) {
 		return (
-			<MenuItem as='span' icon={<Icon />} key={id} {...props} className='sidebar-item'>
+			<MenuItem as='span' icon={<Icon />} key={id} {...props} className={style['sidebar-item']}>
 				{label}
 				<Link to={to} />
 			</MenuItem>
@@ -14,7 +13,7 @@ const RenderNavSideBar = ({ id, children = [], label, icon: Icon, to, ...props }
 	}
 
 	return (
-		<SubMenu label={label} icon={<Icon />} key={id} className='sidebar-submenu' {...props}>
+		<SubMenu label={label} icon={<Icon />} key={id} className={style['sidebar-submenu']} {...props}>
 			{children.map(RenderNavSideBar)}
 		</SubMenu>
 	);
@@ -22,7 +21,7 @@ const RenderNavSideBar = ({ id, children = [], label, icon: Icon, to, ...props }
 
 const NavSideBar = ({ routes = [] }) => {
 	return (
-		<Sidebar className='nav-sidebar' width='320px'>
+		<Sidebar className={style['nav-sidebar']} width='320px'>
 			<Menu>{routes.map(RenderNavSideBar)}</Menu>
 		</Sidebar>
 	);

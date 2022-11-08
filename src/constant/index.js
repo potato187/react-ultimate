@@ -1,4 +1,9 @@
 export const PATH_ROUTES = {
+	HOME_PAGE: {
+		INDEX: '',
+		HOME: 'home',
+		USER: 'user'
+	},
 	ADMIN: {
 		INDEX: 'admin',
 		DASHBOARD: {
@@ -11,6 +16,6 @@ export const PATH_ROUTES = {
 	AUTH: {
 		INDEX: 'auth',
 		LOGIN: 'login',
-		SIGN_UP: 'sign-up',
+		SIGN_UP: 'register',
 	},
 };

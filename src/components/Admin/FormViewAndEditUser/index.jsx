@@ -1,14 +1,14 @@
-import DefaultAvatar from '@/assets/images/user.png';
-import { useImageBase64 } from '@/helpers';
-import { yupResolver } from '@hookform/resolvers/yup';
-import React, { useEffect, useRef } from 'react';
-import { Col, Form, Modal, Row } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
+import DefaultAvatar from '@assets/images/user.png';
+import CustomButton from '@components/ThemeButton';
+import CustomField from '@components/CustomField';
+import {useImageBase64} from '@helpers';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {Role, userSchema} from '@schema';
+import {useEffect, useRef} from 'react';
+import {Col, Form, Modal, Row} from 'react-bootstrap';
+import {useForm} from 'react-hook-form';
 import * as yup from 'yup';
-import CustomButton from '../../CustomButton';
 import AvatarField from '../AvatarField';
-import CustomField from '../CustomField/CustomField';
-import { Role, userSchema } from '../schema';
 import SelectField from '../SelectField';
 
 const FormViewAndEditUser = ({ title = 'Add Users', user = {}, disabled = false, onSubmit, ...props }) => {
@@ -26,8 +26,7 @@ const FormViewAndEditUser = ({ title = 'Add Users', user = {}, disabled = false,
 		register,
 		reset,
 		control,
-		formState: { isSubmitting, isSubmitSuccessful },
-		formState: { errors },
+		formState: { isSubmitting, isSubmitSuccessful, errors },
 	} = useForm({
 		mode: 'onChange',
 		resolver: yupResolver(schema),
@@ -39,14 +38,11 @@ const FormViewAndEditUser = ({ title = 'Add Users', user = {}, disabled = false,
 		},
 	});
 
-	const handleSetValue = (name, value) => {
+	const handleSetValue = async (name, value) => {
 		setValue(name, value);
-		trigger(name);
+		await  trigger(name);
 	};
 
-	const handleLoading = (newState) => {
-		setLoading(newState);
-	};
 
 	const updateUser = (data) => {
 		const formData = new FormData();

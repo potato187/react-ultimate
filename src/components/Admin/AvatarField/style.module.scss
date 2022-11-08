@@ -15,7 +15,7 @@
 		cursor: pointer;
 	}
 
-	.form-avatar__media.loading .form-avatar__main {
+	.form-avatar__media[data-loading=true] .form-avatar__main {
 		&::before,
 		&::after {
 			opacity: 1;
@@ -99,10 +99,18 @@
 		transition-property: color, background-color;
 	}
 
-	.form-avatar__media.loading .form-avatar__btn,
+	.form-avatar__media[data-loading=true] .form-avatar__btn,
 	.form-avatar__btn:hover,
 	.form-avatar__btn.active {
 		background-color: var(--bs-primary);
 		color: var(--bs-white);
+	}
+}
+@keyframes spin360 {
+	0% {
+		transform: translate(-50%, -50%) rotate(0);
+	}
+	100% {
+		transform: translate(-50%, -50%) rotate(1turn);
 	}
 }

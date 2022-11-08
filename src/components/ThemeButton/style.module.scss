@@ -20,24 +20,24 @@
 	transition-property: color, background-color, border-color;
 	transition-timing-function: var(--theme-timing-function);
 
-	&.button-secondary {
+	&[data-button~='secondary'] {
 		--button-background: var(--bs-gray-500);
 		--button-background-hover: #565e64;
 	}
 
-	&.button-danger {
+	&[data-button~='danger'] {
 		--button-background: var(--bs-danger);
 		--button-background-hover: #a52834;
 	}
 
-	&.button-warning {
+	&[data-button~='warning'] {
 		--button-background: #ffc107;
 		--button-background-hover: #ffca2c;
 		--button-text: #000000;
 		--button-text-hover: #000000;
 	}
 
-	&.button-outline {
+	&[data-button~='outline'] {
 		--button-background: var(--bs-white);
 		--button-background-hover: #000000;
 		--button-text: #000000;
@@ -45,24 +45,37 @@
 		--button-border-radius: 0;
 	}
 
-	&.button-sm {
+	&[data-button~='dark'] {
+		--button-background: #282829;
+		--button-background-hover: rgba(40, 40, 41, 0.8);
+		--button-text: var(--bs-white);
+	}
+
+	&[data-button~='sm'] {
 		min-width: 60px;
 		padding: 0.25rem 0.5rem;
 	}
 
-	&.active,
-	&.is-loading,
+	&[data-button~='md']{
+		min-width: 120px;
+		padding: 0 1.5rem;
+		font-weight: 400;
+		height: 2.5rem;
+	}
+
+	&[data-button~='active'],
+	&[data-button~='loading'],
 	&:hover {
 		background-color: var(--button-background-hover);
 		color: var(--button-text-hover);
 	}
 
 	&[disabled],
-	&.is-loading {
+	&[data-isloading=true] {
 		pointer-events: none;
 	}
 
-	> .is-loading.button-title {
+	> &[data-button~='loading'].button-title {
 		margin: 0 0.25rem;
 	}
 
@@ -78,3 +91,13 @@
 		animation: circleSpin 1s linear infinite;
 	}
 }
+
+@keyframes circleSpin {
+	0% {
+		transform: rotate(0);
+	}
+	100% {
+		transform: rotate(1turn);
+	}
+}
+

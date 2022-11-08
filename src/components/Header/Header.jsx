@@ -1,11 +1,11 @@
 import React from 'react';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import './style.scss';
+import style from './style.module.scss';
 
 const Header = () => {
 	return (
-		<Navbar expand='lg'>
+		<Navbar expand='lg' className={style['navbar']}>
 			<Container>
 				<NavLink className='navbar-brand' to='/'>
 					Quiz
@@ -13,13 +13,13 @@ const Header = () => {
 				<Navbar.Toggle aria-controls='basic-navbar-nav' />
 				<Navbar.Collapse id='basic-navbar-nav'>
 					<Nav className='me-auto'>
-						<NavLink className='nav-link' to='/'>
+						<NavLink className={`nav-link ${style['nav-link']}`} to='/'>
 							Home
 						</NavLink>
-						<NavLink className='nav-link' to='/auth'>
+						<NavLink className={`nav-link ${style['nav-link']}`} to='/auth'>
 							Users
 						</NavLink>
-						<NavLink className='nav-link' to='admin'>
+						<NavLink className={`nav-link ${style['nav-link']}`} to='admin'>
 							Admin
 						</NavLink>
 					</Nav>

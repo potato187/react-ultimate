@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
-import CustomButton from '@/components/CustomButton';
+import ThemeButton from '@components/ThemeButton';
 
 const ModalWarning = ({ user, onClose, onDelete }) => {
 	const handleOnClose = () => {
@@ -18,8 +18,8 @@ const ModalWarning = ({ user, onClose, onDelete }) => {
 				</p>
 			</Modal.Body>
 			<Modal.Footer>
-				<CustomButton title='Close' className='button-secondary' onClick={handleOnClose} />
-				<CustomButton title='Delete' className='button-warning' onClick={handleOnDelete} />
+				<ThemeButton title='Close' data-button='secondary' onClick={handleOnClose} />
+				<ThemeButton title='Delete' data-button='warning' onClick={handleOnDelete} />
 			</Modal.Footer>
 		</>
 	);
