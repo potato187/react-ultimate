@@ -12,7 +12,8 @@
 			"@routes/*": ["src/routes/*"],
 			"@helpers/*": ["src/helpers/*"],
 			"@hooks/*": ["src/hooks/*"],
-			"@schema/*": ["src/schema/*"]
+			"@schema/*": ["src/schema/*"],
+			"@redux/*": ["src/redux/*"]
 		}
 	},
 	"include": ["src/**/*"]

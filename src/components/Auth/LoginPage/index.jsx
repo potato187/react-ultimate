@@ -2,10 +2,14 @@ import React, { useEffect } from 'react';
 import authApi from '@api/authApi';
 import LoginForm from '../LoginForm';
 import style from '../Layout/style.module.scss';
+import {useDispatch} from "react-redux";
+import {FETCH_USER_LOGIN_SUCCESS} from "@redux/action/userAction.js";
 
 const LoginPage = () => {
+	const dispatch = useDispatch();
 	const handleOnSubmit = async (data) => {
 		const response = await authApi.login({ ...data });
+		dispatch({type: FETCH_USER_LOGIN_SUCCESS, payload: response});
 	};
 
 	useEffect(() => {
