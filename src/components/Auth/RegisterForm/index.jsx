@@ -5,6 +5,8 @@ import { userSchema } from '@schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import CustomField from '@components/CustomField';
 import style from '../Layout/style.module.scss';
+import {PATH_ROUTES} from "@constant";
+import {useNavigate} from "react-router-dom";
 
 const RegisterForm = ({ onSubmit }) => {
 	const schema = yup.object().shape({
@@ -26,6 +28,8 @@ const RegisterForm = ({ onSubmit }) => {
 		},
 		resolver: yupResolver(schema),
 	});
+
+	const navigate = useNavigate();
 
 	return (
 		<>
@@ -52,6 +56,11 @@ const RegisterForm = ({ onSubmit }) => {
 					</div>
 				</div>
 				<div className={style['auth-form__footer']}>
+					<div className='mb-2'>
+						<button className='button-link' onClick={() => navigate(`../${PATH_ROUTES.AUTH.LOGIN}`)}>
+							Do have an account yet?
+						</button>
+					</div>
 					<ThemeButton
 						isLoading={isSubmitting}
 						type='submit'

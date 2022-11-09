@@ -4,12 +4,17 @@ import LoginForm from '../LoginForm';
 import style from '../Layout/style.module.scss';
 import {useDispatch} from "react-redux";
 import {userLogin} from "@redux/action/userAction.js";
+import {useNavigate} from "react-router-dom";
+import {PATH_ROUTES} from "@constant";
 
 const LoginPage = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
 	const handleOnSubmit = async (data) => {
 		const response = await authApi.login({ ...data });
 		dispatch(userLogin(response));
+		navigate(PATH_ROUTES.USER.HOME);
 	};
 
 	useEffect(() => {
