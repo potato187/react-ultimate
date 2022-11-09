@@ -1,11 +1,16 @@
 export const PATH_ROUTES = {
-	HOME_PAGE: {
-		INDEX: '',
+	USER: {
+		INDEX: '/',
 		HOME: 'home',
-		USER: 'user'
+		USER: 'user',
+	},
+	AUTH: {
+		INDEX: '/auth',
+		LOGIN: 'login',
+		REGISTER: 'register',
 	},
 	ADMIN: {
-		INDEX: 'admin',
+		INDEX: '/admin',
 		DASHBOARD: {
 			INDEX: 'dashboard',
 		},
@@ -13,9 +18,5 @@ export const PATH_ROUTES = {
 			INDEX: 'manage-users',
 		},
 	},
-	AUTH: {
-		INDEX: 'auth',
-		LOGIN: 'login',
-		SIGN_UP: 'register',
-	},
 };
+

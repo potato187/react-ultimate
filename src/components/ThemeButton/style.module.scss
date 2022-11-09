@@ -37,6 +37,12 @@
 		--button-text-hover: #000000;
 	}
 
+	&[data-button~='dark'] {
+		--button-background: #282829;
+		--button-background-hover: rgba(40, 40, 41, 0.8);
+		--button-text: var(--bs-white);
+	}
+
 	&[data-button~='outline'] {
 		--button-background: var(--bs-white);
 		--button-background-hover: #000000;
@@ -45,11 +51,6 @@
 		--button-border-radius: 0;
 	}
 
-	&[data-button~='dark'] {
-		--button-background: #282829;
-		--button-background-hover: rgba(40, 40, 41, 0.8);
-		--button-text: var(--bs-white);
-	}
 
 	&[data-button~='sm'] {
 		min-width: 60px;
