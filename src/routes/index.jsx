@@ -5,10 +5,12 @@ import ManageUsers from '@components/Admin/ManageUsers';
 import Auth from '@components/Auth';
 import LoginPage from '@components/Auth/LoginPage/index.jsx';
 import RegisterPage from '@components/Auth/RegisterPage';
-import HomePage from '@components/HomePage';
+import HomePage from '@components/Users/HomePage';
 import {PATH_ROUTES} from '@constant';
 import {uuid} from '@helpers';
 import {Navigate} from 'react-router-dom';
+import QuestionPage from "@components/Users/QuestionPage/index.jsx";
+import QuestionDetailPage from "@components/Users/QuestionDetailPage/index.jsx";
 
 const {USER, ADMIN, AUTH} = PATH_ROUTES;
 
@@ -22,6 +24,16 @@ export const PAGE_ROUTES = [
                 id: uuid(),
                 path: USER.HOME,
                 Component: HomePage,
+            },
+            {
+                id: uuid(),
+                path: USER.QUESTION,
+                Component: QuestionPage,
+            },
+            {
+                id: uuid(),
+                path: USER.QUESTION_DETAIL,
+                Component: QuestionDetailPage,
             },
             {
                 id: uuid(),

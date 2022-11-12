@@ -1,0 +1,21 @@
+.quiz-list {
+  .quiz-list__title {
+    font-size: var(--theme-font-size-5);
+    font-weight: 700;
+    margin-bottom: 0;
+    text-transform: uppercase;
+  }
+  .quiz-list__header,
+  .quiz-list__wrapper {
+    padding: 15px;
+    border: 1px solid var(--theme-gray-200);
+  }
+
+  .quiz-list__wrapper {
+    border-radius: 0 0 0.25rem 0.25rem;
+  }
+
+  .quiz-list__header {
+    border-radius: 0.25rem 0.25rem 0 0;
+  }
+}

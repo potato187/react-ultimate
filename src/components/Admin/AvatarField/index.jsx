@@ -4,6 +4,7 @@ import { ErrorMessage } from '@hookform/error-message';
 import { useEffect, useId, useRef, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import style from './style.module.scss';
+import useClickOutside from "@hooks/useClickOutside.js";
 
 const AvatarField = ({
 	register,
@@ -18,11 +19,20 @@ const AvatarField = ({
 	const [loading, setLoading] = useState(false);
 	const previewImage = useRef(defaultAvatarUser);
 	const error = errors[name];
+	const ref = useRef(null);
+
+	useClickOutside(ref, () => {
+		setLoading(false);
+		console.log('sec');
+	});
 
 	const fieldRegister = register(name, {
 		onChange: (e) => {
 			if (!error && e.target.files.length > 0 && checkIfFileIsCorrectType(e.target.files)) {
 				previewImage.current = window.URL.createObjectURL(e.target.files[0]);
+			}
+			if(error) {
+				previewImage.current = DefaultAvatar;
 			}
 			setLoading(false);
 		},
@@ -39,7 +49,7 @@ const AvatarField = ({
 	}, []);
 
 	return (
-		<div className={style['form-avatar']} {...props} >
+		<div className={style['form-avatar']} {...props} ref={ref}>
 			<Form.Control hidden type='file' id={id} {...fieldRegister} />
 			<label className={style['form-avatar__media']} data-loading={loading} onClick={() => setLoading(true)} htmlFor={id}>
 				<span className={style['form-avatar__shadow']}>

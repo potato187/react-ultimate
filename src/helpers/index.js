@@ -56,3 +56,7 @@ export const getToast = (EC = -1, EM = 'Has Error') => {
 export const ableNull = (value) => typeOf(value) === 'null';
 
 export const useImageBase64 = (base) => 'data:image/png;base64, ' + base;
+
+export const leadingZero = (str, leading = 2) => {
+	return `0${str}`.slice(-1 * leading);
+}

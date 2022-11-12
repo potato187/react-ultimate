@@ -14,7 +14,7 @@ const LoginPage = () => {
 	const handleOnSubmit = async (data) => {
 		const response = await authApi.login({ ...data });
 		dispatch(userLogin(response));
-		navigate(PATH_ROUTES.USER.HOME);
+		navigate(PATH_ROUTES.USER.INDEX);
 	};
 
 	useEffect(() => {

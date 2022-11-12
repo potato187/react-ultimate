@@ -2,13 +2,20 @@ import React from 'react';
 import {Container, Nav, Navbar, NavDropdown} from 'react-bootstrap';
 import {NavLink, useNavigate} from 'react-router-dom';
 import style from './style.module.scss';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import ThemeButton from "@components/ThemeButton/index.jsx";
-import {PATH_ROUTES} from "@constant";
+import {FULL_PATH_ROUTES, PATH_ROUTES} from "@constant";
+import {userLogOut} from "@redux/action/userAction.js";
 
 const Header = () => {
-    const isAuthenticated = useSelector(state => state.isAuthenticated);
-   	const navigate = useNavigate();
+    const isAuthenticated = useSelector(state => state?.user?.isAuthenticated);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const handleLogOut = () => {
+        dispatch(userLogOut());
+    }
+
 
     return (
         <Navbar expand='lg' className={style['navbar']}>
@@ -19,11 +26,8 @@ const Header = () => {
                 <Navbar.Toggle aria-controls='basic-navbar-nav'/>
                 <Navbar.Collapse id='basic-navbar-nav'>
                     <Nav className='me-auto'>
-                        <NavLink className={`nav-link ${style['nav-link']}`} to='/'>
-                            Home
-                        </NavLink>
-                        <NavLink className={`nav-link ${style['nav-link']}`} to='/auth'>
-                            Users
+                        <NavLink className={`nav-link ${style['nav-link']}`} to='question'>
+                            Question
                         </NavLink>
                         <NavLink className={`nav-link ${style['nav-link']}`} to='admin'>
                             Admin
@@ -34,15 +38,17 @@ const Header = () => {
                             !isAuthenticated ?
                                 (
                                     <div className='d-flex gap-1'>
-										<ThemeButton data-button='dark outline' title='Login in' onClick={() => navigate(PATH_ROUTES.AUTH.LOGIN)} />
-										<ThemeButton data-button='dark' className='rounded-0' title='Register'  onClick={() => navigate(PATH_ROUTES.AUTH.REGISTER)}/>
+                                        <ThemeButton data-button='dark outline' title='Login in'
+                                                     onClick={() => navigate(FULL_PATH_ROUTES.AUTH_LOGIN)}/>
+                                        <ThemeButton data-button='dark' className='rounded-0' title='Register'
+                                                     onClick={() => navigate(FULL_PATH_ROUTES.AUTH_REGISTER)}/>
                                     </div>
                                 )
                                 :
                                 (
                                     <NavDropdown title='Setting' id='basic-nav-dropdown'>
                                         <NavDropdown.Item>Profiles</NavDropdown.Item>
-                                        <NavDropdown.Item>Log out</NavDropdown.Item>
+                                        <NavDropdown.Item onClick={handleLogOut}>Logout</NavDropdown.Item>
                                     </NavDropdown>
                                 )
                         }

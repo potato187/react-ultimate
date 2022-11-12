@@ -1,4 +1,4 @@
-import {FETCH_USER_LOGIN_SUCCESS} from "@redux/action/userAction.js";
+import {FETCH_USER_LOGIN_SUCCESS, USER_LOGOUT} from "@redux/action/userAction.js";
 
 const INITIAL_STATE = {
     account: {
@@ -14,8 +14,9 @@ const INITIAL_STATE = {
 const userReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case FETCH_USER_LOGIN_SUCCESS:
-            console.log(action.payload);
             return {...state, account: {...action.payload}, isAuthenticated: true};
+        case USER_LOGOUT:
+            return INITIAL_STATE;
         default: return  state;
     }
 };

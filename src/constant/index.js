@@ -3,6 +3,8 @@ export const PATH_ROUTES = {
 		INDEX: '/',
 		HOME: 'home',
 		USER: 'user',
+		QUESTION: 'question',
+		QUESTION_DETAIL: 'question/:id'
 	},
 	AUTH: {
 		INDEX: '/auth',
@@ -20,3 +22,7 @@ export const PATH_ROUTES = {
 	},
 };
 
+export const FULL_PATH_ROUTES = {
+	AUTH_LOGIN: 'auth/login',
+	AUTH_REGISTER: 'auth/register'
+}

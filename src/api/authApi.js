@@ -6,8 +6,7 @@ const authApi = {
 	async login({ email, password }) {
 		const url = '/login';
 		const response = await axiosClients.post(url, { email, password });
-		const { EC, EM, DT } = response;
-		getToast(EC, EM);
+		const { EC, DT } = response;
 		return EC === 0 ? DT : null;
 	},
 
