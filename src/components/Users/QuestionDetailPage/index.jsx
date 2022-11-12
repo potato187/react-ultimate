@@ -6,6 +6,7 @@ import style from "./style.module.scss";
 import Quiz from "@components/Users/Quiz/index.jsx";
 import ThemeButton from "@components/ThemeButton/index.jsx";
 import QuizAnswer from "@components/Users/QuizAnswer/index.jsx";
+import QuestionTable from "@components/Users/QuestionTable/index.jsx";
 
 const QuestionDetailPage = () => {
     const param = useParams();
@@ -77,6 +78,7 @@ const QuestionDetailPage = () => {
         setCurrentQuestion(newPosition);
     }
 
+
     const handleSubmitQuestion = () => {
         const objectSubmit = { quizId: param.id, answers: []};
         questions.forEach(question => {
@@ -93,7 +95,6 @@ const QuestionDetailPage = () => {
 
         console.log(objectSubmit);
     }
-
 
     return (
         <main className={style['quiz-list']}>
@@ -124,7 +125,9 @@ const QuestionDetailPage = () => {
                                 </div>
                             </div>
                         </Col>
-                        <Col className='col-4'></Col>
+                        <Col className='col-4'>
+                            <QuestionTable questions={questions} currentIndex={currentQuestion} length={questions.length} handleSelect={setCurrentQuestion} />
+                        </Col>
                     </Row>
                 </div>
             </Container>
