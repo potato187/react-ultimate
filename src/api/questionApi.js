@@ -12,6 +12,10 @@ const questionApi = {
 
     async getQuizById(id) {
         return await axiosClient.get(`/quiz/${id}`);
+    },
+
+    async postQuestions(data) {
+        return await axiosClient.post('/quiz-submit', { ...data });;
     }
 };
 

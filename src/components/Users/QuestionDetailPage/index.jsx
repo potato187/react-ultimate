@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Col, Container, Row} from "react-bootstrap";
+import {Col, Container, Modal, Row} from "react-bootstrap";
 import {useParams} from "react-router-dom";
 import questionApi from "@api/questionApi.js";
 import style from "./style.module.scss";
@@ -7,12 +7,17 @@ import Quiz from "@components/Users/Quiz/index.jsx";
 import ThemeButton from "@components/ThemeButton/index.jsx";
 import QuizAnswer from "@components/Users/QuizAnswer/index.jsx";
 import QuestionTable from "@components/Users/QuestionTable/index.jsx";
+import ModalBase from "@components/ModalBase/index.jsx";
+import useToggle from "@hooks/useToggle.js";
 
 const QuestionDetailPage = () => {
     const param = useParams();
     const [questions, setQuestions] = useState([]);
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [quizTitle, setQuizTitle] = useState(false);
+    const [result, setResult] = useState({});
+    const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
+    const {toggle, handleOpen, handleClose} = useToggle(false);
 
     useEffect(() => {
         (async () => {
@@ -66,72 +71,112 @@ const QuestionDetailPage = () => {
 
     const handleNavigateQuestion = (flag = true) => {
         const MAX_LENGTH = questions.length - 1;
+        setCurrentQuestion(prevState => {
+            return flag ? prevState + 1 > MAX_LENGTH ? 0 : prevState + 1 : prevState - 1 < 0 ? MAX_LENGTH : prevState - 1
+        })
+    };
 
-        let newPosition = currentQuestion;
-
-        if(flag) {
-            newPosition = currentQuestion + 1 > MAX_LENGTH ? 0 : currentQuestion + 1;
-        }else {
-            newPosition = currentQuestion - 1 < 0 ? MAX_LENGTH : currentQuestion - 1;
-        }
-
-        setCurrentQuestion(newPosition);
-    }
-
-
-    const handleSubmitQuestion = () => {
-        const objectSubmit = { quizId: param.id, answers: []};
-        questions.forEach(question => {
-            objectSubmit.answers.push({
-                questionId: question.id,
-                userAnswerId: question.answers.reduce((arr, current) => {
-                    if(current.isSelected) {
-                        arr.push(current.id);
-                    }
-                    return arr;
-                }, [])
+    const handleSubmitQuestions = async () => {
+        const payload = {quizId: +param.id, answers: []};
+        if (questions && questions.length) {
+            questions.forEach(question => {
+                payload.answers.push({
+                    questionId: question.id,
+                    userAnswerId: question.answers.reduce((arr, current) => {
+                        if (current.isSelected) {
+                            arr.push(current.id);
+                        }
+                        return arr;
+                    }, [])
+                });
             });
-        });
+            const response = await questionApi.postQuestions(payload);
+            if (response && response.EC === 0) {
+                handleOpen();
+                setResult(response.DT);
+            }
+        }
+    };
 
-        console.log(objectSubmit);
+    const handleShowCorrectAnswers = () => {
+        setShowCorrectAnswers(true);
+        handleClose();
+    };
+
+    const handleReset = () => {
+        setCurrentQuestion(0);
+        setResult({});
+        setShowCorrectAnswers(false);
+        setQuestions(prevState => {
+            const newQuestions = prevState.map(question => {
+                question.answers.map(answer => {
+                    answer.isSelected = false;
+                    return answer;
+                })
+                return question;
+            });
+            return newQuestions;
+        });
     }
 
     return (
-        <main className={style['quiz-list']}>
-            <Container>
-                <div className='py-5'>
-                    <Row>
-                        <Col className='col-8'>
-                            <div className={`${style['quiz-list__header']} border-bottom-0`}>
-                                <h3 className={style['quiz-list__title']}>{quizTitle}</h3>
-                            </div>
-                            <div className={style['quiz-list__wrapper']}>
-                                <div className={style['quiz-list__main']}>
-                                    {
-                                        questions.length > 0 && (
-                                            <Quiz index={currentQuestion} {...questions[currentQuestion]}>
-                                                {
-                                                    questions[currentQuestion].answers.length && questions[currentQuestion].answers.map((answer) =>
-                                                        <QuizAnswer key={answer.id} {...answer} onChange={handleSelectAnswer}/>)
-                                                }
-                                            </Quiz>
-                                        )
-                                    }
+        <>
+            <main className={style['quiz-list']}>
+                <Container>
+                    <div className='py-5'>
+                        <Row>
+                            <Col className='col-8'>
+                                <div className={`${style['quiz-list__header']} border-bottom-0`}>
+                                    <h3 className={style['quiz-list__title']}>{quizTitle}</h3>
                                 </div>
-                                <div className='d-flex justify-content-center'>
-                                    <ThemeButton className='mx-1' data-button='sm' title='Previous' onClick={() => handleNavigateQuestion(false)}/>
-                                    <ThemeButton className='mx-1' data-button='sm' title='Next' onClick={() => handleNavigateQuestion()}/>
-                                    <ThemeButton className='mx-1' data-button='sm warning' title='Finish' onClick={handleSubmitQuestion}/>
+                                <div className={style['quiz-list__wrapper']}>
+                                    <div className={style['quiz-list__main']}>
+                                        {
+                                            questions.length > 0 && (
+                                                <Quiz index={currentQuestion} {...questions[currentQuestion]} >
+                                                    {
+                                                        questions[currentQuestion].answers.length && questions[currentQuestion].answers.map((answer) =>
+                                                            <QuizAnswer key={answer.id} {...answer}
+                                                                        correctAnswers={result.quizData ? result.quizData[currentQuestion] : null}
+                                                                        showCorrectAnswers={showCorrectAnswers}
+                                                                        onChange={handleSelectAnswer}/>)
+                                                    }
+                                                </Quiz>
+                                            )
+                                        }
+                                    </div>
+                                    <div className='d-flex justify-content-center'>
+                                        <ThemeButton className='mx-1' data-button='sm' title='Previous'
+                                                     onClick={() => handleNavigateQuestion(false)}/>
+                                        <ThemeButton className='mx-1' data-button='sm' title='Next'
+                                                     onClick={() => handleNavigateQuestion()}/>
+                                        <ThemeButton className='mx-1' data-button='sm warning' title='Finish'
+                                                     onClick={handleSubmitQuestions}/>
+                                        <ThemeButton className='mx-1' data-button='sm danger' title='Reset'
+                                                     onClick={handleReset}/>
+                                    </div>
                                 </div>
-                            </div>
-                        </Col>
-                        <Col className='col-4'>
-                            <QuestionTable questions={questions} currentIndex={currentQuestion} length={questions.length} handleSelect={setCurrentQuestion} />
-                        </Col>
-                    </Row>
-                </div>
-            </Container>
-        </main>
+                            </Col>
+                            <Col className='col-4'>
+                                <QuestionTable questions={questions} currentIndex={currentQuestion}
+                                               length={questions.length} handleSelect={setCurrentQuestion}/>
+                            </Col>
+                        </Row>
+                    </div>
+                </Container>
+            </main>
+            <ModalBase size='md' data-modal='md' show={toggle} handleClose={handleClose} title='Your Result'>
+                <Modal.Body>
+                    <div>Total Questions: {result.countTotal}</div>
+                    <div>Total Correct Answers: {result.countCorrect}</div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <ThemeButton data-button='sm warning' title='Show anwsers'
+                                 onClick={handleShowCorrectAnswers}/>
+                    <ThemeButton data-button='sm senodary' title='Close' onClick={handleClose}/>
+                </Modal.Footer>
+            </ModalBase>
+        </>
     );
 }
 

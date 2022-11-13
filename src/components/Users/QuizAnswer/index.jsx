@@ -1,17 +1,38 @@
 import {useId} from "react";
+import style from './style.module.scss';
+import { Form } from "react-bootstrap";
 
-const QuizAnswer = ({id, description, isSelected, onChange = null, ...props}) => {
+const QuizAnswer = ({
+                        id,
+                        description,
+                        isSelected,
+                        correctAnswers = {},
+                        showCorrectAnswers = false,
+                        onChange = null,
+                        ...props
+                    }) => {
     const uuid = useId();
     const handleOnChange = (e) => {
-        if(onChange) {
+        if (onChange) {
             onChange(id, e.target.checked);
         }
     };
 
-    return (<div className='form-check' {...props}>
-        <input id={uuid} type='checkbox' name='' className='form-check-input' defaultChecked={isSelected} onChange={handleOnChange} />
-        <label htmlFor={uuid} className='form-check-label'>{description}</label>
-    </div>);
+    let isCorrectAnswer = false;
+    let classes = `form-check ${style['form-check']} `;
+
+    if (showCorrectAnswers && correctAnswers.systemAnswers) {
+        isCorrectAnswer = correctAnswers.systemAnswers.some(answer => answer.id === id);
+        classes += isCorrectAnswer ? style['is-correct'] : style['is-wrong'];
+    }
+
+    return (
+        <div className={classes} {...props}>
+            <input id={uuid} type='checkbox' className='form-check-input' defaultChecked={isSelected}
+                   onChange={handleOnChange}/>
+            <label htmlFor={uuid} className='form-check-label'>{description}</label>
+        </div>
+    );
 }
 
-export default  QuizAnswer;
+export default QuizAnswer;

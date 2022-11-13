@@ -1,0 +1,33 @@
+.form-check {
+  &.is-correct {
+    > input + label,
+    > input[checked] + label {
+      color: var(--bs-success);
+    }
+
+    > input[checked] {
+      background-color: var(--bs-success);
+      border-color: var(--bs-success);
+    }
+
+    > input {
+      border-color: var(--bs-success);
+    }
+  }
+
+  &.is-wrong {
+    > input[checked] + label {
+      color: var(--bs-danger);
+    }
+    > input[checked] {
+      background-color: var(--bs-danger);
+      border-color: var(--bs-danger);
+    }
+  }
+
+  &.is-correct,
+  &.is-wrong {
+    user-select: none;
+    pointer-events: none;
+  }
+}

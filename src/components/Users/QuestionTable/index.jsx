@@ -5,7 +5,7 @@ const QuestionTableItem = () => {
     return
 }
 
-const QuestionTable = ({questions, currentIndex = 0, length = 0, handleSelect = null, ...props}) => {
+const QuestionTable = ({questions = [], currentIndex = 0, length = 0, handleSelect = null, ...props}) => {
     if (!length || length < 0) return <></>
     const handleOnClick = (index) => {
         handleSelect && handleSelect(index);
@@ -13,7 +13,7 @@ const QuestionTable = ({questions, currentIndex = 0, length = 0, handleSelect = 
 
     return (
         <div className={style['question-table']}>
-            <div className={style['question-table__header']}>TABLE SELECT</div>
+            <div className={style['question-table__header']}>QUESTIONS</div>
             <ul className={style['question-list']} {...props}>
                 {
                     Array(length).fill(null)

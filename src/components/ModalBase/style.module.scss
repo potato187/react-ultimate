@@ -2,9 +2,17 @@
 	--modal-padding: 1.25rem;
 	--modal-title: 1.25rem;
 
-	&[data-modal~='md'] {
+	[data-modal~='md'] {
 		--modal-padding: 0.75rem;
 		--modal-title: 1rem;
+
+		[class~='modal-title'] {
+			font-size: var(--theme-font-size-6);
+		}
+	}
+
+	[class~='modal-title'] {
+		font-weight: 700;
 	}
 
 	[class~='modal-content'] {

@@ -1,7 +1,14 @@
 import {leadingZero, useImageBase64} from "@helpers/index.js";
 import style from "./style.module.scss";
 
-const Quiz = ({index = 1, id, description = '', image = null, children, ...props}) => {
+const Quiz = ({
+                  index = 1,
+                  id,
+                  description = '',
+                  image = null,
+                  children,
+                  ...props
+              }) => {
     return <>
         <div className={style['quiz']} {...props}>
             {image && (<div className={style['quiz-header']}>
