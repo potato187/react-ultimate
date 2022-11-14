@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
-import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
+import {GrFormNext, GrFormPrevious} from 'react-icons/gr';
 import style from './style.module.scss';
 
 const Pagination = ({

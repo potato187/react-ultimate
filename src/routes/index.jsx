@@ -1,16 +1,17 @@
 import App from '@/App';
-import Admin from '@components/Admin';
-import Dashboard from '@components/Admin/Dashboard';
-import ManageUsers from '@components/Admin/ManageUsers';
-import Auth from '@components/Auth';
-import LoginPage from '@components/Auth/LoginPage/index.jsx';
-import RegisterPage from '@components/Auth/RegisterPage';
-import HomePage from '@components/Users/HomePage';
 import {PATH_ROUTES} from '@constant';
 import {uuid} from '@helpers';
 import {Navigate} from 'react-router-dom';
-import QuestionPage from "@components/Users/QuestionPage/index.jsx";
-import QuestionDetailPage from "@components/Users/QuestionDetailPage/index.jsx";
+import HomePage from "@pages/Users/HomePage";
+import QuestionPage from "@pages/Users/QuestionPage";
+import QuestionDetailPage from "@pages/Users/QuestionDetailPage";
+import Auth from "@pages/Auth";
+import LoginPage from "@pages/Auth/LoginPage";
+import Admin from "@pages/Admin";
+import ManageUsers from "@pages/Admin/ManageUsers";
+import ManageQuestions from "@pages/Admin/ManageQuestions";
+
+
 
 const {USER, ADMIN, AUTH} = PATH_ROUTES;
 
@@ -60,7 +61,7 @@ export const PAGE_ROUTES = [
             {
                 id: uuid(),
                 path: AUTH.REGISTER,
-                Component: RegisterPage,
+                Component: LoginPage,
             },
             {
                 id: uuid(),
@@ -81,14 +82,15 @@ export const PAGE_ROUTES = [
         children: [
             {
                 id: uuid(),
-                path: ADMIN.DASHBOARD.INDEX,
-                Component: Dashboard,
-            },
-            {
-                id: uuid(),
                 path: ADMIN.MANAGE_USERS.INDEX,
                 index: true,
                 Component: ManageUsers,
+            },
+            {
+                id: uuid(),
+                path: ADMIN.MANAGE_QUESTIONS.INDEX,
+                index: true,
+                Component: ManageQuestions,
             },
             {
                 id: uuid(),

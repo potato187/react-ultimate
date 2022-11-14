@@ -1,4 +1,4 @@
-import { Modal } from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 import style from './style.module.scss';
 
 const ModalBase = ({ title = 'Add Users', show: passShow = false, handleClose, children, ...props }) => {

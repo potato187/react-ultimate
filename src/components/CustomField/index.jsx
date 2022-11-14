@@ -1,7 +1,7 @@
-import { ErrorMessage } from '@hookform/error-message';
+import {ErrorMessage} from '@hookform/error-message';
 import React from 'react';
-import { Form } from 'react-bootstrap';
-import { Controller } from 'react-hook-form';
+import {Form} from 'react-bootstrap';
+import {Controller} from 'react-hook-form';
 import style from './style.module.scss';
 
 const CustomField = ({ control, name, label, errors, ...props }) => {

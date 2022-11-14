@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Outlet } from 'react-router-dom';
-import Header from './components/Users/Header/Header';
+import {Outlet} from 'react-router-dom';
+import Header from "@pages/Users/Header";
 import './App.scss';
 
 function App() {

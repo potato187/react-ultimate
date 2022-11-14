@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 
 const SingleRoute = ({ id, Component, index = false, ...props }) => {
 	if(index) {
