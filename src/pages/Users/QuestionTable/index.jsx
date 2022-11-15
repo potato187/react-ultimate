@@ -1,10 +1,6 @@
 import style from './style.module.scss';
 import {uuid} from "@helpers";
 
-const QuestionTableItem = () => {
-    return
-}
-
 const QuestionTable = ({questions = [], currentIndex = 0, length = 0, handleSelect = null, ...props}) => {
     if (!length || length < 0) return <></>
     const handleOnClick = (index) => {

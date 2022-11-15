@@ -23,7 +23,6 @@ const AvatarField = ({
 
 	useClickOutside(ref, () => {
 		setLoading(false);
-		console.log('sec');
 	});
 
 	const fieldRegister = register(name, {

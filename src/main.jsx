@@ -6,13 +6,12 @@ import {store, persistor} from "@redux/store.js";
 import {PAGE_ROUTES} from "@routes/index.jsx";
 import {PersistGate} from 'redux-persist/integration/react'
 
-
 ReactDOM.createRoot(document.getElementById('root')).render(
-	<Provider store={store}>
-		<PersistGate loading={null} persistor={persistor}>
-		<BrowserRouter>
-			<RenderRoutes routes={PAGE_ROUTES} />
-		</BrowserRouter>
-		</PersistGate>
-	</Provider>
+    <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+            <BrowserRouter>
+                <RenderRoutes routes={PAGE_ROUTES}/>
+            </BrowserRouter>
+        </PersistGate>
+    </Provider>
 );

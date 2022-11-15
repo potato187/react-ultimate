@@ -1,33 +1,33 @@
 import {useEffect, useState} from "react";
 import {Col, Container, Modal, Row} from "react-bootstrap";
 import {useParams} from "react-router-dom";
-import questionApi from "@api/questionApi.js";
+import quizApi from "@api/quizApi.js";
 import style from "./style.module.scss";
 import ThemeButton from "@components/ThemeButton";
 import ModalBase from "@components/ModalBase/index.jsx";
 import useToggle from "@hooks/useToggle.js";
-import Quiz from "../Quiz";
-import QuizAnswer from "../QuizAnswer";
+import Question from "../Question";
+import QuestionAnswer from "../QuestionAnswer";
 import QuestionTable from "../QuestionTable";
 
-const QuestionDetailPage = () => {
-    const param = useParams();
+const QuizDetailPage = () => {
+    const {quizId} = useParams();
     const [questions, setQuestions] = useState([]);
     const [currentQuestion, setCurrentQuestion] = useState(0);
-    const [quizTitle, setQuizTitle] = useState(false);
+    const [title, setTitle] = useState('');
     const [result, setResult] = useState({});
     const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
     const {toggle, handleOpen, handleClose} = useToggle(false);
 
     useEffect(() => {
         (async () => {
-            const response = await questionApi.getQuestionById(param.id);
-            const {EC, DT} = response;
+            const response = await quizApi.getAllQuestionOfQuiz(quizId);
+            const {EC, DT, title} = response;
             if (EC === 0 && DT) {
                 const raw = DT.reduce((arr, current) => {
                     const {id, description, image, answers} = current;
                     answers.isSelected = false;
-                    const index = arr.findIndex(quiz => quiz.id === id);
+                    const index = arr.findIndex(question => question.id === id);
                     if (index === -1) {
                         const quiz = {};
                         quiz.id = id;
@@ -40,21 +40,11 @@ const QuestionDetailPage = () => {
                     }
                     return arr;
                 }, []);
-
                 setQuestions(raw);
+                setTitle(title);
             }
         })();
-    }, []);
-
-    useEffect(() => {
-        (async () => {
-            const response = await questionApi.getQuizById(param.id);
-            const {EC, DT} = response;
-            if (EC === 0 && DT) {
-                setQuizTitle(DT?.name);
-            }
-        })();
-    }, []);
+    }, [quizId]);
 
     const handleSelectAnswer = (answerId, selected) => {
         const currentQuestionId = questions[currentQuestion].id;
@@ -77,7 +67,7 @@ const QuestionDetailPage = () => {
     };
 
     const handleSubmitQuestions = async () => {
-        const payload = {quizId: +param.id, answers: []};
+        const payload = {quizId: +quizId, answers: []};
         if (questions && questions.length) {
             questions.forEach(question => {
                 payload.answers.push({
@@ -90,7 +80,7 @@ const QuestionDetailPage = () => {
                     }, [])
                 });
             });
-            const response = await questionApi.postQuestions(payload);
+            const response = await quizApi.submitQuiz(payload);
             if (response && response.EC === 0) {
                 handleOpen();
                 setResult(response.DT);
@@ -127,21 +117,21 @@ const QuestionDetailPage = () => {
                         <Row>
                             <Col className='col-8'>
                                 <div className={`${style['quiz-list__header']} border-bottom-0`}>
-                                    <h3 className={style['quiz-list__title']}>{quizTitle}</h3>
+                                    <h3 className={style['quiz-list__title']}>{title}</h3>
                                 </div>
                                 <div className={style['quiz-list__wrapper']}>
                                     <div className={style['quiz-list__main']}>
                                         {
                                             questions.length > 0 && (
-                                                <Quiz index={currentQuestion} {...questions[currentQuestion]} >
+                                                <Question index={currentQuestion} {...questions[currentQuestion]} >
                                                     {
                                                         questions[currentQuestion].answers.length && questions[currentQuestion].answers.map((answer) =>
-                                                            <QuizAnswer key={answer.id} {...answer}
+                                                            <QuestionAnswer key={answer.id} {...answer}
                                                                         correctAnswers={result.quizData ? result.quizData[currentQuestion] : null}
                                                                         showCorrectAnswers={showCorrectAnswers}
                                                                         onChange={handleSelectAnswer}/>)
                                                     }
-                                                </Quiz>
+                                                </Question>
                                             )
                                         }
                                     </div>
@@ -180,4 +170,4 @@ const QuestionDetailPage = () => {
     );
 }
 
-export default QuestionDetailPage;
+export default QuizDetailPage;

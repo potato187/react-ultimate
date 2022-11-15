@@ -11,7 +11,7 @@ import FormCreateUser from './FormCreateUser';
 import FormViewAndEditUser from './FormViewAndEditUser';
 import TableUser from './TableUser';
 import ModalWarning from './ModalWarning';
-import style from './style.module.scss';
+import style from '../Layout/style.module.scss';
 import {uuid} from "@helpers/index.js";
 import ThemeBreadcrumb from "../components/ThemeBreadcrumb";
 

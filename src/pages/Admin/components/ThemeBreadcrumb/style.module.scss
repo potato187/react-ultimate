@@ -25,7 +25,8 @@
       margin-bottom: 0;
     }
     > h1 {
-      font-size: 1rem;
+      font-size: var(--size-theme-6);
+      text-transform: uppercase;
     }
 
     > .breadcrumb > [class~='breadcrumb'] {

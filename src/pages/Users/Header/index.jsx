@@ -21,13 +21,13 @@ const Header = () => {
         <Navbar expand='lg' className={style['navbar']}>
             <Container>
                 <NavLink className='navbar-brand' to='/'>
-                    Quiz
+                    Potato187
                 </NavLink>
                 <Navbar.Toggle aria-controls='basic-navbar-nav'/>
                 <Navbar.Collapse id='basic-navbar-nav'>
                     <Nav className='me-auto'>
-                        <NavLink className={`nav-link ${style['nav-link']}`} to='question'>
-                            Question
+                        <NavLink className={`nav-link ${style['nav-link']}`} to='quiz'>
+                            Quiz
                         </NavLink>
                         <NavLink className={`nav-link ${style['nav-link']}`} to='admin'>
                             Admin

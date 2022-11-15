@@ -3,14 +3,13 @@ import {PATH_ROUTES} from '@constant';
 import {uuid} from '@helpers';
 import {Navigate} from 'react-router-dom';
 import HomePage from "@pages/Users/HomePage";
-import QuestionPage from "@pages/Users/QuestionPage";
-import QuestionDetailPage from "@pages/Users/QuestionDetailPage";
 import Auth from "@pages/Auth";
 import LoginPage from "@pages/Auth/LoginPage";
 import Admin from "@pages/Admin";
 import ManageUsers from "@pages/Admin/ManageUsers";
-import ManageQuestions from "@pages/Admin/ManageQuestions";
-
+import ManageQuizz from "@pages/Admin/ManageQuizz";
+import QuizPage from "@pages/Users/QuizPage";
+import QuizDetailPage from "@pages/Users/QuizDetailPage/index.jsx";
 
 
 const {USER, ADMIN, AUTH} = PATH_ROUTES;
@@ -28,13 +27,13 @@ export const PAGE_ROUTES = [
             },
             {
                 id: uuid(),
-                path: USER.QUESTION,
-                Component: QuestionPage,
+                path: USER.QUIZ,
+                Component: QuizPage,
             },
             {
                 id: uuid(),
-                path: USER.QUESTION_DETAIL,
-                Component: QuestionDetailPage,
+                path: USER.QUIZ_DETAIL,
+                Component: QuizDetailPage,
             },
             {
                 id: uuid(),
@@ -88,9 +87,8 @@ export const PAGE_ROUTES = [
             },
             {
                 id: uuid(),
-                path: ADMIN.MANAGE_QUESTIONS.INDEX,
-                index: true,
-                Component: ManageQuestions,
+                path: ADMIN.MANAGE_QUIZZ.INDEX,
+                Component: ManageQuizz,
             },
             {
                 id: uuid(),
@@ -100,7 +98,7 @@ export const PAGE_ROUTES = [
             {
                 id: uuid(),
                 path: '*',
-                Component: () => <Navigate replace to={ADMIN.MANAGE_USERS.INDEX}/>,
+                Component: ManageUsers,
             },
         ],
     },

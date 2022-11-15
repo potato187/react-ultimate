@@ -4,11 +4,11 @@ import {useImageBase64} from "@helpers";
 import {useNavigate} from "react-router-dom";
 import {PATH_ROUTES} from "@constant";
 
-const QuestionCard = ({id, image = '', description = '', ...props}) => {
+const QuizCard = ({quizId, image = '', description = '', ...props}) => {
     const navigate = useNavigate();
 
     const handleOnClick = () => {
-        navigate(`/${PATH_ROUTES.USER.QUESTION}/${id}`, { state: {quizTitle: description}});
+        navigate(`/${PATH_ROUTES.USER.QUIZ}/${quizId}`, { state: {quizTitle: description}});
     }
 
     return (
@@ -20,7 +20,7 @@ const QuestionCard = ({id, image = '', description = '', ...props}) => {
            </Ratio>
             <Card.Body>
                 <Card.Title>
-                    {`Quiz ${id}`}
+                    {`Quiz ${quizId}`}
                 </Card.Title>
                 <Card.Text>
                     {description}
@@ -33,4 +33,4 @@ const QuestionCard = ({id, image = '', description = '', ...props}) => {
     );
 }
 
-export default  QuestionCard;
+export default  QuizCard;

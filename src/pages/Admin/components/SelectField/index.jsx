@@ -1,97 +1,112 @@
-import { trimClassNames } from '@helpers/index.js';
-import useClickOutside from '@hooks/useClickOutside.js';
-import { ErrorMessage } from '@hookform/error-message';
-import React from 'react';
-import { Form } from 'react-bootstrap';
-import { Controller } from 'react-hook-form';
-import { CSSTransition } from 'react-transition-group';
+import {ErrorMessage} from '@hookform/error-message';
+import {useState, useId} from 'react';
+import {Form} from 'react-bootstrap';
+import {Controller} from 'react-hook-form';
 import style from './style.module.scss';
-import "./alert.scss"
+import Select from "react-select";
 
-const RenderOptions = ({ options, toggle, handleSelect, handleClose, ...props }) => {
-	const nodeRef = React.useRef(null);
+const customStyles = {
+    control: () => {
+        return {
+            position: 'relative',
+        }
+    },
+    valueContainer: () => {
+        return {
+            border: '1px solid #ced4da',
+            padding: '0.375rem 0.75rem',
+            height: '35px',
+            borderRadius: '0.25rem',
+            width: '100%',
+            ':hover': {
+                borderColor: '#000'
+            }
+        }
+    },
+    indicatorsContainer: () => ({
+        position: 'absolute',
+        top: '0',
+        right: '0'
+    }),
+    input: () => ({
+        opacity: 0,
+    }),
+    menu: () => {
+        return {
+            position: 'absolute',
+            top: 'calc(100% + 0.25rem)',
+            left: 0,
+            right: '0',
+            backgroundColor: '#fff',
+            border: '1px solid #ced4da',
+            padding: '0 0',
+            borderRadius: '0.25rem',
 
-	const handleOnClick = (event) => {
-		if (handleSelect) {
-			const { id } = event.target.dataset;
-			handleSelect(id);
-			handleClose();
-		}
-	};
+        }
+    },
+    menuList: () => {
+        return {
+            padding: '0',
+            transition: '0.5s var(--theme-timing-function)',
+        }
+    },
 
-	return (
-		<div className={style['select-dropdown']}>
-			<CSSTransition
-				in={toggle}
-				nodeRef={nodeRef}
-				timeout={500}
-				classNames='alert'
-				className={style['select-dropdown__list']}
-				unmountOnExit>
-				<ul className='list-unstyled mb-0 ' ref={nodeRef}>
-					{options.map(({ key, value }) => (
-						<li key={key} data-id={value} onClick={handleOnClick}>
-							{value}
-						</li>
-					))}
-				</ul>
-			</CSSTransition>
-		</div>
-	);
-};
+    option: (_, state) => ({
+        fontSize: '14px',
+        padding: '0.375rem 0.5rem',
+        background: state.isSelected ? 'var(--theme-primary-hover)' : '#fff',
+        color: !state.isSelected ? 'var(--theme-gray-900)' : '#fff',
+        ':first-of-type': {
+            borderRadius: '0.25rem 0.25rem 0 0',
+        },
+        ':last-of-type': {
+            borderRadius: '0 0 0.25rem 0.25rem',
+        },
+        ':hover': {
+            background: !state.isSelected ? 'var(--theme-primary)' : 'var(--theme-primary-hover)',
+            color: '#fff'
+        },
+        '&.selected': {
+            background: 'red',
+            color: '#fff'
+        },
+    }),
+}
 
-const SelectField = ({ options = [], control, name, label, disabled = false, handleSetValue, ...props }) => {
-	const id = React.useId();
+const SelectField = ({options = [], control, name, label, disabled = false, handleSetValue = null, ...props}) => {
+    const id = useId();
+    if (!options.length) return <></>;
+    const [selectedOption, setSelectedOpetion] = useState(null);
 
-	const [toggle, setToggle] = React.useState(false);
-
-	const handleClose = () => {
-		setToggle(false);
-	};
-	const handleSelect = (newValue) => {
-		handleSetValue(name, newValue);
-	};
-
-	return (
-		<Controller
-			control={control}
-			name={name}
-			render={({ field, formState: { errors } }) => {
-				const nodeRef = React.useRef(null);
-				useClickOutside(nodeRef, () => {
-					setToggle(false);
-				});
-
-				return (
-					<Form.Group className={`form-group ${style['select-group']}`} data-disabled={disabled} controlId={id}>
-						<Form.Label>{label}</Form.Label>
-						<div ref={nodeRef}>
-							<Form.Control hidden {...field} />
-							<div
-								className={`form-control ${style['form-control']}`}
-								onClick={() => setToggle((prevState) => !prevState)}>
-								{field.value ? field.value : props.placeholder}
-							</div>
-							{!disabled && (
-								<RenderOptions
-									toggle={toggle}
-									options={options}
-									handleSelect={handleSelect}
-									handleClose={handleClose}
-									disabled={disabled}
-								/>
-							)}
-						</div>
-						<ErrorMessage
-							errors={errors}
-							name={name}
-							render={({ message }) => <div className='invalid-message'>{message}</div>}
-						/>
-					</Form.Group>
-				);
-			}}
-		/>
-	);
+    return (
+        <Controller
+            control={control}
+            name={name}
+            render={({field: {onChange, value, ...rest}, formState: {errors}}) => {
+                return (
+                    <Form.Group className={`form-group ${style['select-group']}`} controlId={id}>
+                        <Form.Label>{label}</Form.Label>
+                        <Select className={style['form-control']}
+                                options={options}
+                                defaultValue={selectedOption}
+                                onChange={val => {
+                                    onChange(val.value)
+                                }}
+                                value={options.filter(options => value.includes(options.value))}
+                                styles={customStyles}
+                                readOnly
+                                {...rest}
+                        />
+                        <ErrorMessage
+                            errors={errors}
+                            name={name}
+                            render={({message}) => <div className='invalid-message'>{message}</div>}
+                        />
+                    </Form.Group>
+                );
+            }}
+        />
+    );
 };
 
 export default SelectField;

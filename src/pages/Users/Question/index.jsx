@@ -1,7 +1,7 @@
 import {leadingZero, useImageBase64} from "@helpers";
 import style from "./style.module.scss";
 
-const Quiz = ({
+const Question = ({
                   index = 1,
                   id,
                   description = '',
@@ -10,18 +10,18 @@ const Quiz = ({
                   ...props
               }) => {
     return <>
-        <div className={style['quiz']} {...props}>
-            {image && (<div className={style['quiz-header']}>
-                <div className={style['quiz-media']}>
+        <div className={style['question']} {...props}>
+            {image && (<div className={style['question-header']}>
+                <div className={style['question-media']}>
                     <img src={useImageBase64(image)} alt={description} className='w-100 img-fluid'/>
                 </div>
             </div>)}
-            <div className={style['quiz-body']}>
-                <div className={style['quiz-title']}>{`${leadingZero(index + 1)}. ${description}`}</div>
+            <div className={style['question-body']}>
+                <div className={style['question-title']}>{`${leadingZero(index + 1)}. ${description}`}</div>
                 {children}
             </div>
         </div>
     </>;
 }
 
-export default Quiz;
+export default Question;

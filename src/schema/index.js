@@ -5,10 +5,12 @@ export const Role = [
 	{
 		key: uuid(),
 		value: 'ADMIN',
+		label: 'Amin',
 	},
 	{
 		key: uuid(),
 		value: 'USER',
+		label: 'User'
 	},
 ];
 
@@ -25,3 +27,7 @@ export const userSchema = {
 		.transform((value) => (value ? value : null))
 		.test('fileType', 'The File is correct type', checkIfFileIsCorrectType),
 };
+
+
+export const examSchema = {};
+export const EXAMS_DIFFICULTY = [];

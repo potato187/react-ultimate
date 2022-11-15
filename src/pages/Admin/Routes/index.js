@@ -17,9 +17,9 @@ export const SIDEBAR_ROUTES = [
     },
     {
         id: uuid(),
-        label: 'Manage Questions',
+        label: 'Manage Exams',
         icon: MdOutlineManageAccounts,
-        to: ADMIN.MANAGE_QUESTIONS.INDEX,
+        to: ADMIN.MANAGE_QUIZZ.INDEX,
         children: [],
     },
 

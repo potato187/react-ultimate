@@ -3,8 +3,8 @@ export const PATH_ROUTES = {
         INDEX: '/',
         HOME: 'home',
         USER: 'user',
-        QUESTION: 'question',
-        QUESTION_DETAIL: 'question/:id'
+        QUIZ: 'quiz',
+        QUIZ_DETAIL: 'quiz/:quizId'
     },
     AUTH: {
         INDEX: '/auth',
@@ -13,8 +13,8 @@ export const PATH_ROUTES = {
     },
     ADMIN: {
         INDEX: '/admin',
-        MANAGE_QUESTIONS: {
-            INDEX: 'manage-questions',
+        MANAGE_QUIZZ: {
+            INDEX: 'manage-quiz',
         },
         MANAGE_USERS: {
             INDEX: 'manage-users',

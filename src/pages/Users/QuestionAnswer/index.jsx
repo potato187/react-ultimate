@@ -1,7 +1,7 @@
 import {useId} from "react";
 import style from './style.module.scss';
 
-const QuizAnswer = ({
+const QuestionAnswer = ({
                         id,
                         description,
                         isSelected,
@@ -34,4 +34,4 @@ const QuizAnswer = ({
     );
 }
 
-export default QuizAnswer;
+export default QuestionAnswer;
