@@ -29,5 +29,27 @@ export const userSchema = {
 };
 
 
-export const examSchema = {};
-export const EXAMS_DIFFICULTY = [];
+
+export const EXAMS_DIFFICULTY = [
+	{
+		key: uuid(),
+		value: 'easy',
+		label: 'Easy',
+	},
+	{
+		key: uuid(),
+		value: 'medium',
+		label: 'Medium'
+	},
+	{
+		key: uuid(),
+		value: 'hard',
+		label: 'Hard'
+	},
+];
+
+export const examSchema = {
+	name: yup.string().required('Quiz name is required').min(3, 'Quiz name must be at least 3 characters'),
+	difficulty: yup.string().test('typeDifficulty', (value) => EXAMS_DIFFICULTY.find((type) => type.value === value)),
+	description: yup.string().required('Quiz description is required'),
+};

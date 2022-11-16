@@ -4,6 +4,7 @@ import {Form} from 'react-bootstrap';
 import {Controller} from 'react-hook-form';
 import style from './style.module.scss';
 import Select from "react-select";
+import {trimClassNames} from "@helpers/index.js";
 
 const customStyles = {
     control: () => {
@@ -41,12 +42,14 @@ const customStyles = {
             border: '1px solid #ced4da',
             padding: '0 0',
             borderRadius: '0.25rem',
+            zIndex: 5
 
         }
     },
     menuList: () => {
         return {
             padding: '0',
+            borderRadius: '0.25rem',
             transition: '0.5s var(--theme-timing-function)',
         }
     },
@@ -73,26 +76,25 @@ const customStyles = {
     }),
 }
 
-const SelectField = ({options = [], control, name, label, disabled = false, handleSetValue = null, ...props}) => {
+const SelectField = ({options = [], control, name, label, disabled = false, handleSetValue = null, className = '', ...props}) => {
     const id = useId();
     if (!options.length) return <></>;
-    const [selectedOption, setSelectedOpetion] = useState(null);
-
+    const classes = trimClassNames(['form-group', style['select-group'], className]);
     return (
         <Controller
             control={control}
             name={name}
             render={({field: {onChange, value, ...rest}, formState: {errors}}) => {
                 return (
-                    <Form.Group className={`form-group ${style['select-group']}`} controlId={id}>
+                    <Form.Group className={classes} controlId={id}>
                         <Form.Label>{label}</Form.Label>
                         <Select className={style['form-control']}
                                 options={options}
-                                defaultValue={selectedOption}
+                                defaultValue={options[0]}
+                                noOptionsMessage={() => null}
                                 onChange={val => {
                                     onChange(val.value)
                                 }}
-                                value={options.filter(options => value.includes(options.value))}
                                 styles={customStyles}
                                 readOnly
                                 {...rest}

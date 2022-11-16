@@ -1,0 +1,58 @@
+.loading {
+  position: relative;
+
+  > * {
+    z-index: 1;
+  }
+
+  &::after,
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  &::before {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(225, 225, 225, 0.75);
+  }
+
+  &::after {
+    width: 3.25rem;
+    height: 3.25rem;
+    border: 0.25rem solid var(--bs-primary);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-left-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    animation: spin360 0.75s linear infinite;
+  }
+
+  &[data-style~='cricle']::before {
+    border-radius: 50%;
+  }
+
+  &[data-loading=true] {
+    &::before,
+    &::after {
+      z-index: 10;
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+@keyframes spin360 {
+  0% {
+    transform: translate(-50%, -50%) rotate(0);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(1turn);
+  }
+}

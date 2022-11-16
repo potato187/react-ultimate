@@ -23,6 +23,8 @@
 	--theme-font-size-4: 1.25rem;
 	--theme-font-size-5: 1.125rem;
 	--theme-font-size-6: 1rem;
+	--theme-font-size-7: 0.875rem;
+	--theme-font-size-8: 0.8125rem;
 }
 
 body {
@@ -102,5 +104,11 @@ button {
 	font-size: 0.875rem;
 	&:hover {
 		color: #282829cc;
+	}
+}
+
+@for $index from 0 through  10 {
+	.z-index-#{$index} {
+		z-index: $index;
 	}
 }
