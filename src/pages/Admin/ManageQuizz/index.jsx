@@ -8,7 +8,7 @@ import {uuid} from "@helpers/index.js";
 import useToggle from "@hooks/useToggle.js";
 import ModalBase from "@components/ModalBase";
 import ModalCreateQuiz from "@pages/Admin/ManageQuizz/ModalCreateQuiz";
-
+import quizApi from "@api/quizApi.js";
 
 const breadcrumb = [
     {
@@ -26,6 +26,11 @@ const breadcrumb = [
 
 const ManageQuizz = () => {
     const {toggle, handleToggle} = useToggle(false);
+
+    const submitCreateQuiz = async(data) => {
+        await quizApi.createQuiz(data);
+        handleToggle(false);
+    }
     return (
         <>
             <div className={style['admin-page']}>
@@ -48,7 +53,7 @@ const ManageQuizz = () => {
                 </div>
             </div>
             <ModalBase data-modal='md' title='Create Quiz' show={toggle} handleClose={() => handleToggle(false)}>
-                <ModalCreateQuiz onSubmit={null}/>
+                <ModalCreateQuiz onSubmit={submitCreateQuiz}/>
             </ModalBase>
         </>
     )

@@ -58,7 +58,7 @@ const FormCreateUser = ({ onSubmit = null, ...props }) => {
 			<Form onSubmit={handleSubmit(createUser)}>
 				<Row>
 					<Col md={4}>
-						<AvatarField register={register} errors={errors} name='userImage' isSubmitSuccessful={isSubmitSuccessful} />
+						<AvatarField  register={register} errors={errors} name='userImage' isSubmitSuccessful={isSubmitSuccessful} />
 					</Col>
 					<Col md={8}>
 						<CustomField

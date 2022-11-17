@@ -4,20 +4,21 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import CustomField from "@components/CustomField";
 import React from "react";
 import {EXAMS_DIFFICULTY, examSchema} from "@schema";
-import SelectField from "@pages/Admin/components/SelectField/index.jsx";
+import SelectField from "@pages/Admin/components/SelectField";
 import * as yup from 'yup';
 import ThemeButton from "@components/ThemeButton/index.jsx";
-import ImageField from "@pages/Admin/ManageQuizz/ImageField/index.jsx";
+import ImageField from "@pages/Admin/ManageQuizz/ImageField";
+import { useEffect} from 'react';
 
-const ModalCreateExam = ({onSubmit = null, ...props}) => {
+const ModalCreateExam = ({onSubmit  = null, ...props}) => {
     const schema = yup.object().shape({...examSchema});
 
     const {
         handleSubmit,
         control,
         setValue,
-        trigger,
-        formState: {isSubmitting},
+        reset,
+        formState: {isSubmitting, isSubmitSuccessful, errors},
     } = useForm({
         mode: 'onChange',
         resolver: yupResolver(schema),
@@ -34,17 +35,21 @@ const ModalCreateExam = ({onSubmit = null, ...props}) => {
     };
 
 
-    const handleFunc = (data) => {
-        console.log(data);
+    const handleCreatQuiz = (data) => {
+        onSubmit && onSubmit(data);
     }
+
+    useEffect(() => {
+        reset();
+    }, [isSubmitSuccessful]);
 
     return (
         <>
             <Modal.Body>
-                <Form onSubmit={handleSubmit(handleFunc)}>
+                <Form onSubmit={handleSubmit(handleCreatQuiz)}>
                     <Row>
                         <div className='col-4'>
-                            <ImageField handleSetValue={handleSetValue} control={control} name='quizImage' />
+                            <ImageField errors={errors} handleSetValue={handleSetValue} control={control} name='quizImage' />
                         </div>
                         <div className="col-8">
                             <CustomField

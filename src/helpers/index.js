@@ -17,10 +17,7 @@ export const uuid = () => {
 };
 
 export const checkIfFileIsTooBig = (files) => {
-	if (ableNull(files)) return true;
-
-	if (!files || !files[0]) return false;
-
+	if (ableNull(files) || !files || !files[0]) return true;
 	const size = files[0].size / 1024 / 1024;
 	return size <= 10;
 };

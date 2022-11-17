@@ -1,0 +1,14 @@
+.form-group {
+  position: relative;
+
+  .error-message {
+    position: absolute;
+    top: 100%;
+    left: 0.25rem;
+    font-size: 0.8125rem;
+    font-weight: 300;
+    color: var(--bs-danger);
+    display: block;
+    width: 100%;
+  }
+}

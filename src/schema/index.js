@@ -1,4 +1,4 @@
-import { uuid, checkPassword, checkIfFileIsCorrectType } from '@/helpers';
+import {uuid, checkPassword, checkIfFileIsCorrectType, checkIfFileIsTooBig} from '@/helpers';
 import * as yup from 'yup';
 
 export const Role = [
@@ -52,4 +52,8 @@ export const examSchema = {
 	name: yup.string().required('Quiz name is required').min(3, 'Quiz name must be at least 3 characters'),
 	difficulty: yup.string().test('typeDifficulty', (value) => EXAMS_DIFFICULTY.find((type) => type.value === value)),
 	description: yup.string().required('Quiz description is required'),
+	quizImage: yup
+		.mixed()
+		.transform((value) => (value ? value : null))
+		.test('fileType', 'The File is too Big ', checkIfFileIsTooBig),
 };

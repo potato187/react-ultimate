@@ -1,5 +1,6 @@
 import axiosClients from "@api/axiosClient.js";
 import axiosClient from "@api/axiosClient.js";
+import {getToast} from "@helpers/index.js";
 
 const quizApi = {
     async getQuizByParticipant() {
@@ -18,6 +19,16 @@ const quizApi = {
 
     async submitQuiz(data) {
         return await axiosClient.post('/quiz-submit', {...data});
+    },
+
+     async createQuiz(data) {
+        const formData = new FormData();
+        for (const key in data) {
+            formData.append(key, data[key]);
+        }
+        const response = await axiosClient.post('/quiz', formData);
+        const { EC, EM } = response;
+        getToast(EC, EM);
     }
 };
 

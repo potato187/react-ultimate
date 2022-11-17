@@ -102,7 +102,7 @@ const SelectField = ({options = [], control, name, label, disabled = false, hand
                         <ErrorMessage
                             errors={errors}
                             name={name}
-                            render={({message}) => <div className='invalid-message'>{message}</div>}
+                            render={({message}) => <div className={style['invalid-message']}>{message}</div>}
                         />
                     </Form.Group>
                 );

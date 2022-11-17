@@ -1,19 +1,31 @@
 .select-group {
-	margin-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+  position: relative;
 
-	.form-control {
-		font-size: 0.875rem;
-		border-radius: 0.25rem;
-	}
+  .form-control {
+    font-size: 0.875rem;
+    border-radius: 0.25rem;
+  }
 
-	label {
-		font-weight: 600;
-		margin-bottom: 0.25rem;
-	}
-	&[data-disabled=true] .form-control {
-		background-color: var(--bs-gray-200);
-	}
-	.form-control[data-focus=true] {
-		border-color: var(--theme-text-color);
-	}
+  label {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  &[data-disabled=true] .form-control {
+    background-color: var(--bs-gray-200);
+  }
+
+  .form-control[data-focus=true] {
+    border-color: var(--theme-text-color);
+  }
+
+  .invalid-message {
+    position: absolute;
+    top: 100%;
+    left: 0.25rem;
+    font-size: 0.8125rem;
+    font-weight: 300;
+    color: var(--bs-danger);
+  }
 }
