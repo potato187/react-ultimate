@@ -30,7 +30,7 @@ const ImageField = ({handleSetValue = null, errors = null, name}) => {
         } else {
             imagePreview.current = imagePlaceholder;
             handleSetValue(name, '');
-            toast.warn('Only PNG/JPG/JPEG image formats can be used');
+            toast.error('Only PNG/JPG/JPEG image formats can be used');
         }
         setLoading(false);
     };
