@@ -1,4 +1,4 @@
-import {uuid, checkPassword, checkIfFileIsCorrectType, checkIfFileIsTooBig} from '@/helpers';
+import { uuid, checkPassword, checkIfFileIsCorrectType, checkIfFileIsTooBig } from '@/helpers';
 import * as yup from 'yup';
 
 export const Role = [
@@ -10,7 +10,7 @@ export const Role = [
 	{
 		key: uuid(),
 		value: 'USER',
-		label: 'User'
+		label: 'User',
 	},
 ];
 
@@ -28,8 +28,6 @@ export const userSchema = {
 		.test('fileType', 'The File is correct type', checkIfFileIsCorrectType),
 };
 
-
-
 export const EXAMS_DIFFICULTY = [
 	{
 		key: uuid(),
@@ -39,21 +37,19 @@ export const EXAMS_DIFFICULTY = [
 	{
 		key: uuid(),
 		value: 'medium',
-		label: 'Medium'
+		label: 'Medium',
 	},
 	{
 		key: uuid(),
 		value: 'hard',
-		label: 'Hard'
+		label: 'Hard',
 	},
 ];
 
 export const examSchema = {
 	name: yup.string().required('Quiz name is required').min(3, 'Quiz name must be at least 3 characters'),
-	difficulty: yup.string().test('typeDifficulty', (value) => EXAMS_DIFFICULTY.find((type) => type.value === value)),
+	difficulty: yup.string().test('typeDifficulty', (value) => {
+		return EXAMS_DIFFICULTY.find((type) => type.value === value);
+	}),
 	description: yup.string().required('Quiz description is required'),
-	quizImage: yup
-		.mixed()
-		.transform((value) => (value ? value : null))
-		.test('fileType', 'The File is too Big ', checkIfFileIsTooBig),
 };

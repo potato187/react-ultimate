@@ -25,4 +25,10 @@ export const PATH_ROUTES = {
 export const FULL_PATH_ROUTES = {
     AUTH_LOGIN: 'auth/login',
     AUTH_REGISTER: 'auth/register',
-}
+};
+
+export const MODAL_TYPE = {
+    MODAL_CREATE: 'MODAL_CREATE',
+    MODAL_VIEW: 'MODAL_VIEW',
+    MODAL_UPDATE: 'MODAL_UPDAL'
+};

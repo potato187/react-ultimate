@@ -8,11 +8,18 @@ import SelectField from "@pages/Admin/components/SelectField";
 import * as yup from 'yup';
 import ThemeButton from "@components/ThemeButton/index.jsx";
 import ImageField from "@pages/Admin/ManageQuizz/ImageField";
-import { useEffect} from 'react';
+import {useEffect} from 'react';
+import {MODAL_TYPE} from "@constant";
 
-const ModalCreateExam = ({onSubmit  = null, ...props}) => {
+const ModalCreateExam = ({
+                             modalType = MODAL_TYPE.MODAL_CREATE,
+                             quiz = {},
+                             onSubmit = null,
+                             handleToggle = null,
+                             ...props
+                         }) => {
     const schema = yup.object().shape({...examSchema});
-
+    const shouldDisabled = modalType === MODAL_TYPE.MODAL_VIEW;
     const {
         handleSubmit,
         control,
@@ -39,9 +46,28 @@ const ModalCreateExam = ({onSubmit  = null, ...props}) => {
         onSubmit && onSubmit(data);
     }
 
+    const handleCloseModel = () => {
+        if (handleToggle) {
+            handleToggle(false);
+        }
+    }
+
     useEffect(() => {
         reset();
     }, [isSubmitSuccessful]);
+
+    useEffect(() => {
+        if (modalType !== MODAL_TYPE.MODAL_CREATE && Object.keys(quiz).length > 0) {
+            setValue('id', quiz?.id);
+            setValue('name', quiz?.name);
+            setValue('difficulty', quiz?.difficulty);
+            setValue('description', quiz?.description);
+            setValue('quizImage', quiz?.image);
+        }else {
+            setValue('difficulty', EXAMS_DIFFICULTY[0].value);
+        }
+    }, []);
+
 
     return (
         <>
@@ -49,7 +75,12 @@ const ModalCreateExam = ({onSubmit  = null, ...props}) => {
                 <Form onSubmit={handleSubmit(handleCreatQuiz)}>
                     <Row>
                         <div className='col-4'>
-                            <ImageField errors={errors} handleSetValue={handleSetValue} control={control} name='quizImage' />
+                            <ImageField name='quizImage'
+                                        errors={errors}
+                                        disabled={shouldDisabled}
+                                        handleSetValue={handleSetValue}
+                                        defaultValue={quiz.image}
+                            />
                         </div>
                         <div className="col-8">
                             <CustomField
@@ -58,9 +89,10 @@ const ModalCreateExam = ({onSubmit  = null, ...props}) => {
                                 type='text'
                                 placeholder='Enter quiz name'
                                 label='Quiz name: '
+                                disabled={shouldDisabled}
                             />
-                            <SelectField options={EXAMS_DIFFICULTY}  control={control} name='difficulty'
-                                         label='Quiz difficulty: ' className='z-index-2'/>
+                            <SelectField options={EXAMS_DIFFICULTY} control={control} name='difficulty'
+                                         label='Quiz difficulty: ' className='z-index-2' disabled={shouldDisabled}/>
                             <CustomField
                                 as='textarea'
                                 rows='4'
@@ -70,14 +102,27 @@ const ModalCreateExam = ({onSubmit  = null, ...props}) => {
                                 className='position-relative'
                                 placeholder='Enter quiz description'
                                 label='Quiz Description: '
+                                disabled={shouldDisabled}
                             />
                         </div>
                         <div className="col-8 offset-4">
-                            <div className='text-center'>
-                                <ThemeButton isLoading={isSubmitting}
-                                             data-button={`${isSubmitting ? 'loading' : ''}`}
-                                             type='submit' title='Create Question'
-                                />
+                            <div className="text-end">
+                                {
+                                    [MODAL_TYPE.MODAL_CREATE, MODAL_TYPE.MODAL_UPDATE].includes(modalType) ?
+                                        (
+                                            <ThemeButton isLoading={isSubmitting}
+                                                         data-button={`${isSubmitting ? 'loading' : ''}`}
+                                                         type='submit'
+                                                         title={modalType === MODAL_TYPE.MODAL_CREATE ? 'Create Quiz' : 'Update Quiz'}
+                                            />
+                                        )
+                                        :
+                                        (
+                                            <ThemeButton type='button' data-button='secondary' title='Close'
+                                                         onClick={handleCloseModel}
+                                            />
+                                        )
+                                }
                             </div>
                         </div>
                     </Row>

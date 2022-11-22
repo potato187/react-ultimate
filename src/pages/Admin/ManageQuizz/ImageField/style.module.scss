@@ -1,4 +1,9 @@
 .image-field {
+  &[disabled] {
+    user-select: none;
+    pointer-events: none;
+  }
+
   .image-filed__wrapper {
     cursor: pointer;
     display: block;

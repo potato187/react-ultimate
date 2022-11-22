@@ -84,7 +84,7 @@ const SelectField = ({options = [], control, name, label, disabled = false, hand
         <Controller
             control={control}
             name={name}
-            render={({field: {onChange, value, ...rest}, formState: {errors}}) => {
+            render={({field: {onChange,value, ...rest}, formState: {errors}}) => {
                 return (
                     <Form.Group className={classes} controlId={id}>
                         <Form.Label>{label}</Form.Label>
@@ -92,11 +92,12 @@ const SelectField = ({options = [], control, name, label, disabled = false, hand
                                 options={options}
                                 defaultValue={options[0]}
                                 noOptionsMessage={() => null}
+                                styles={customStyles}
+                                readOnly
+                                isDisabled={disabled}
                                 onChange={val => {
                                     onChange(val.value)
                                 }}
-                                styles={customStyles}
-                                readOnly
                                 {...rest}
                         />
                         <ErrorMessage
