@@ -33,6 +33,8 @@ const tableHeader = [
 	{ name: 'actions', className: 'text-center' },
 ];
 
+const tableBody = ['name', 'difficulty'];
+
 const ManageQuizzes = () => {
 	const [quiz, setQuiz] = useState([]);
 	const [currentQuiz, setCurrentQuiz] = useState({});
@@ -113,7 +115,8 @@ const ManageQuizzes = () => {
 						<div className={style['section-main']}>
 							<ThemeTable
 								tableHeader={tableHeader}
-								tableBody={quiz}
+								tableBody={tableBody}
+								data={quiz}
 								onView={handleOpenModalEditAndUpdate}
 								onUpdate={handleOpenModalEditAndUpdate}
 								onDelete={handleDeleteQuizById}

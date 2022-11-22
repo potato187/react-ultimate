@@ -1,19 +1,19 @@
 import participantApi from '@/api/participantApi';
+import ModalBase from '@/components/ModalBase';
+import Pagination from '@/components/Pagination';
 import CustomButton from '@/components/ThemeButton';
 import useAsyncFilters from '@/hooks/useAsyncFilters';
 import useToggle from '@/hooks/useToggle';
-import ModalBase from '@/components/ModalBase';
-import Pagination from '@/components/Pagination';
-import React, { useRef, useState } from 'react';
-import { Breadcrumb, Col, Row } from 'react-bootstrap';
-import { MdDashboardCustomize } from 'react-icons/md';
-import FormCreateUser from './FormCreateUser';
-import FormViewAndEditUser from './FormViewAndEditUser';
-import TableUser from './TableUser';
-import ModalWarning from './ModalWarning';
-import style from '../Layout/style.module.scss';
+import { MODAL_TYPE } from '@constant';
 import { uuid } from '@helpers/index.js';
+import React, { useState } from 'react';
+import { Col, Row } from 'react-bootstrap';
+import { MdDashboardCustomize } from 'react-icons/md';
 import ThemeBreadcrumb from '../components/ThemeBreadcrumb';
+import ThemeTable from '../components/ThemeTable';
+import style from '../Layout/style.module.scss';
+import FormCreateUser from './FormCreateUser';
+import ModalWarning from './ModalWarning';
 
 const breadcrumb = [
 	{
@@ -29,32 +29,34 @@ const breadcrumb = [
 	},
 ];
 
+const tableHeader = [
+	{ name: 'Name', className: 'text-center' },
+	{ name: 'Email', className: 'text-center' },
+	{ name: 'Role', className: 'text-center' },
+	{ name: 'Actions', className: 'text-center' },
+];
+
+const tableBody = ['username', 'email', 'role'];
+
 const ManageUsers = () => {
 	const [users, setUsers] = useState([]);
 	const [totalPage, setTotalPage] = useState(1);
 	const [previewUser, setPreviewUser] = useState({});
+	const [tracking, setTracking] = useState(false);
 	const { queryParams, setQueryParams } = useAsyncFilters();
-	const trackingChange = useRef(false);
-
-	const {
-		toggle: toggleModalCreateUser,
-		handleOpen: handleOpenModalCreateUser,
-		handleClose: handleCloseModalCreateUser,
-	} = useToggle();
-	const { toggle: toggleProfile, handleToggle: handleToggleProfile } = useToggle();
-	const { toggle: mode, handleToggle: handleChangeMode } = useToggle();
-	const { toggle: toggleModalWarning, handleToggle: handleToggleModalWarning } = useToggle();
+	const [isOnModal, toggleModal] = useToggle(false);
+	const [modalType, setModalType] = useState(MODAL_TYPE.MODAL_CREATE);
 
 	const handleCreateUser = async (formData) => {
 		await participantApi.create(formData);
-		handleCloseModalCreateUser();
-		trackingChange.current = true;
+		toggleModal(false);
+		setTracking((prevState) => !prevState);
 	};
 
 	const handleDeleteUser = async (userId) => {
 		await participantApi.delete(userId);
-		handleToggleModalWarning(false);
-		trackingChange.current = true;
+		toggleModal(false);
+		setTracking((prevState) => !prevState);
 	};
 
 	const handleUpdateUser = async (formData) => {
@@ -70,9 +72,10 @@ const ManageUsers = () => {
 		}
 	};
 
-	const handlePreviewUser = (currentUser) => {
-		setPreviewUser(currentUser);
-		handleToggleProfile(true);
+	const handlePreviewUser = (id) => {
+		setPreviewUser(users.find((user) => user.id === id));
+		setModalType(MODAL_TYPE.MODAL_VIEW);
+		toggleModal(true);
 	};
 
 	const handleOnPageChange = (event) => {
@@ -89,7 +92,7 @@ const ManageUsers = () => {
 				setTotalPage(DT['totalPages']);
 			}
 		})();
-	}, [queryParams, trackingChange.current]);
+	}, [queryParams, tracking]);
 
 	return (
 		<>
@@ -101,37 +104,26 @@ const ManageUsers = () => {
 							<Row className='align-items-center'>
 								<Col md='6'>Deals Analytics</Col>
 								<Col md='6' className='text-end'>
-									<CustomButton className='button ml-auto' onClick={handleOpenModalCreateUser} title='Add User' />
+									<CustomButton className='button ml-auto' onClick={() => toggleModal(true)} title='Add User' />
 								</Col>
 							</Row>
 						</div>
 						<div className={style['section-main']}>
-							<TableUser
-								users={users}
-								mode={mode}
+							<ThemeTable
+								tableHeader={tableHeader}
+								data={users}
+								tableBody={tableBody}
 								onView={handlePreviewUser}
-								onDelete={handleToggleModalWarning}
-								handleChangeMode={handleChangeMode}
-								setPreviewUser={setPreviewUser}
+								onDelete={null}
+								onDelete={null}
 							/>
 							<Pagination pageOffset={+queryParams.page - 1} pageCount={totalPage} onPageChange={handleOnPageChange} />
 						</div>
 					</div>
 				</div>
 			</div>
-			<ModalBase title='Add User' show={toggleModalCreateUser} handleClose={handleCloseModalCreateUser}>
-				<FormCreateUser onSubmit={handleCreateUser} />
-			</ModalBase>
-			<ModalBase title='User Profile' show={toggleProfile} handleClose={handleToggleProfile}>
-				<FormViewAndEditUser user={previewUser} onSubmit={handleUpdateUser} disabled={mode} />
-			</ModalBase>
-			<ModalBase
-				title='Delete User'
-				show={toggleModalWarning}
-				handleClose={handleToggleModalWarning}
-				size='md'
-				data-modal='md'>
-				<ModalWarning user={previewUser} onClose={handleToggleModalWarning} onDelete={handleDeleteUser} />
+			<ModalBase title='Add User' show={isOnModal} handleClose={() => toggleModal(false)}>
+				<FormCreateUser onSubmit={handleCreateUser} modalType={modalType} user={previewUser} />
 			</ModalBase>
 		</>
 	);

@@ -10,6 +10,7 @@ import style from './style.module.scss';
 
 const ThemeTable = ({
 	tableHeader = [],
+	data = [],
 	tableBody = [],
 	onView = null,
 	onUpdate = null,
@@ -61,11 +62,12 @@ const ThemeTable = ({
 						</tr>
 					</thead>
 					<tbody>
-						{tableBody.length > 0
-							? tableBody.map(({ id, difficulty, name }) => (
+						{data.length > 0
+							? data.map(({ id, ...rest }) => (
 									<tr key={uuid()}>
-										<td>{name}</td>
-										<td className='text-center'>{difficulty}</td>
+										{tableBody.map((key, index) => (
+											<td key={index}>{rest[key]}</td>
+										))}
 										<td className='d-flex gap-1 justify-content-center'>
 											<ThemeButton title='View' data-button='sm secondary' onClick={() => handleOnView(id)} />
 											<ThemeButton title='Update' data-button='sm warning' onClick={() => handleUpdate(id)} />
@@ -79,7 +81,7 @@ const ThemeTable = ({
 			</div>
 			<ModalBase data-modal='md' size='md' title='Delete Quiz' show={isOn} handleClose={handleCancelDelete}>
 				<Modal.Body>
-					<div>Do you want delete quiz ?</div>
+					<div>Do you want to delete ?</div>
 				</Modal.Body>
 				<Modal.Footer>
 					<ThemeButton title='Close' data-button='sm secondary' onClick={handleCancelDelete} />

@@ -1,17 +1,19 @@
-import {Role, userSchema} from '@schema';
+import { Role, userSchema } from '@schema';
 import ThemeButton from '@components/ThemeButton';
-import {yupResolver} from '@hookform/resolvers/yup';
-import React from 'react';
-import {Col, Form, Modal, Row} from 'react-bootstrap';
-import {useForm} from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import React, { useEffect } from 'react';
+import { Col, Form, Modal, Row } from 'react-bootstrap';
+import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import AvatarField from '../../components/AvatarField';
 import SelectField from '../../components/SelectField';
 import CustomField from '@components/CustomField';
+import { MODAL_TYPE } from '@constant';
 
-const FormCreateUser = ({ onSubmit = null, ...props }) => {
+const FormCreateUser = ({ onSubmit = null, user = {}, modalType = MODAL_TYPE.MODAL_CREATE, ...props }) => {
 	const schema = yup.object().shape({ ...userSchema });
-
+	const isDisabled = modalType === MODAL_TYPE.MODAL_VIEW;
+	const isShowing = modalType !== MODAL_TYPE.MODAL_VIEW;
 	const {
 		handleSubmit,
 		setValue,
@@ -32,9 +34,17 @@ const FormCreateUser = ({ onSubmit = null, ...props }) => {
 		},
 	});
 
-	React.useEffect(() => {
+	/* 	React.useEffect(() => {
 		reset();
-	}, [isSubmitSuccessful]);
+	}, [isSubmitSuccessful]); */
+
+	useEffect(() => {
+		if (isDisabled && Object.keys(user).length > 0) {
+			setValue('username', user?.username);
+			setValue('email', user?.email);
+			setValue('role', user?.role);
+		}
+	}, []);
 
 	const handleSetValue = async (name, value) => {
 		setValue(name, value);
@@ -58,7 +68,7 @@ const FormCreateUser = ({ onSubmit = null, ...props }) => {
 			<Form onSubmit={handleSubmit(createUser)}>
 				<Row>
 					<Col md={4}>
-						<AvatarField  register={register} errors={errors} name='userImage' isSubmitSuccessful={isSubmitSuccessful} />
+						<AvatarField register={register} errors={errors} name='userImage' isSubmitSuccessful={isSubmitSuccessful} />
 					</Col>
 					<Col md={8}>
 						<CustomField
@@ -67,16 +77,27 @@ const FormCreateUser = ({ onSubmit = null, ...props }) => {
 							type='text'
 							placeholder='Enter your name'
 							label='Full Name'
+							disabled={isDisabled}
 						/>
-						<CustomField control={control} name='email' type='email' placeholder='Enter email' label='Email address' />
 						<CustomField
 							control={control}
-							name='password'
-							type='password'
-							autoComplete='on'
-							placeholder='Enter password'
-							label='Enter password'
+							name='email'
+							type='email'
+							placeholder='Enter email'
+							label='Email address'
+							disabled={isDisabled}
 						/>
+						{isShowing ? (
+							<CustomField
+								control={control}
+								name='password'
+								type='password'
+								autoComplete='on'
+								placeholder='Enter password'
+								label='Enter password'
+								disabled={isDisabled}
+							/>
+						) : null}
 						<SelectField
 							control={control}
 							name='role'
@@ -84,6 +105,7 @@ const FormCreateUser = ({ onSubmit = null, ...props }) => {
 							label='Role'
 							options={Role}
 							handleSetValue={handleSetValue}
+							disabled={isDisabled}
 						/>
 						<ThemeButton
 							isLoading={isSubmitting}
