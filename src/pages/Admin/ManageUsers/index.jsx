@@ -13,7 +13,6 @@ import ThemeBreadcrumb from '../components/ThemeBreadcrumb';
 import ThemeTable from '../components/ThemeTable';
 import style from '../Layout/style.module.scss';
 import FormCreateUser from './FormCreateUser';
-import ModalWarning from './ModalWarning';
 
 const breadcrumb = [
 	{
@@ -47,8 +46,10 @@ const ManageUsers = () => {
 	const [isOnModal, toggleModal] = useToggle(false);
 	const [modalType, setModalType] = useState(MODAL_TYPE.MODAL_CREATE);
 
-	const handleCreateUser = async (formData) => {
-		await participantApi.create(formData);
+	const handleOnSubmit = async (formData) => {
+		modalType === MODAL_TYPE.MODAL_CREATE
+			? await participantApi.create(formData)
+			: await participantApi.update(formData);
 		toggleModal(false);
 		setTracking((prevState) => !prevState);
 	};
@@ -78,6 +79,17 @@ const ManageUsers = () => {
 		toggleModal(true);
 	};
 
+	const handleOpenModalCreate = () => {
+		toggleModal(true);
+		setModalType(MODAL_TYPE.MODAL_CREATE);
+	};
+
+	const handleOpenModalUpdate = (id) => {
+		setPreviewUser(users.find((user) => user.id === id));
+		toggleModal(true);
+		setModalType(MODAL_TYPE.MODAL_UPDATE);
+	};
+
 	const handleOnPageChange = (event) => {
 		const newQueryParams = { ...queryParams, page: +event.selected + 1 };
 		setQueryParams(newQueryParams);
@@ -104,7 +116,7 @@ const ManageUsers = () => {
 							<Row className='align-items-center'>
 								<Col md='6'>Deals Analytics</Col>
 								<Col md='6' className='text-end'>
-									<CustomButton className='button ml-auto' onClick={() => toggleModal(true)} title='Add User' />
+									<CustomButton className='button ml-auto' onClick={handleOpenModalCreate} title='Add User' />
 								</Col>
 							</Row>
 						</div>
@@ -114,7 +126,7 @@ const ManageUsers = () => {
 								data={users}
 								tableBody={tableBody}
 								onView={handlePreviewUser}
-								onDelete={null}
+								onUpdate={handleOpenModalUpdate}
 								onDelete={null}
 							/>
 							<Pagination pageOffset={+queryParams.page - 1} pageCount={totalPage} onPageChange={handleOnPageChange} />
@@ -123,7 +135,7 @@ const ManageUsers = () => {
 				</div>
 			</div>
 			<ModalBase title='Add User' show={isOnModal} handleClose={() => toggleModal(false)}>
-				<FormCreateUser onSubmit={handleCreateUser} modalType={modalType} user={previewUser} />
+				<FormCreateUser onSubmit={handleOnSubmit} modalType={modalType} user={previewUser} />
 			</ModalBase>
 		</>
 	);

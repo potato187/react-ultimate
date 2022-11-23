@@ -17,3 +17,15 @@
 		transition: all 600ms cubic-bezier(0.165, 0.84, 0.44, 1);
 	}
 }
+
+.dropdown {
+	padding: 0;
+	[class~='dropdown-menu'] {
+		padding: 0;
+		overflow: hidden;
+	}
+	.dropdown-item {
+		font-size: var(--theme-font-size-7);
+		padding: 0.5rem 1rem;
+	}
+}

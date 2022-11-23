@@ -22,10 +22,6 @@ export const userSchema = {
 		.string()
 		.test('typeRole', 'Role is invalid', (value) => Role.find((role) => role.value === value))
 		.required('Role is required'),
-	userImage: yup
-		.mixed()
-		.transform((value) => (value ? value : null))
-		.test('fileType', 'The File is correct type', checkIfFileIsCorrectType),
 };
 
 export const EXAMS_DIFFICULTY = [

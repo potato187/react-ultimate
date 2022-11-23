@@ -9,11 +9,28 @@ import AvatarField from '../../components/AvatarField';
 import SelectField from '../../components/SelectField';
 import CustomField from '@components/CustomField';
 import { MODAL_TYPE } from '@constant';
+import { useImageBase64 } from '@helpers/index';
+import DefaultAvatar from '@assets/images/user.png';
 
 const FormCreateUser = ({ onSubmit = null, user = {}, modalType = MODAL_TYPE.MODAL_CREATE, ...props }) => {
-	const schema = yup.object().shape({ ...userSchema });
-	const isDisabled = modalType === MODAL_TYPE.MODAL_VIEW;
-	const isShowing = modalType !== MODAL_TYPE.MODAL_VIEW;
+	const { MODAL_CREATE, MODAL_VIEW, MODAL_UPDATE } = MODAL_TYPE;
+	const schema = { ...userSchema };
+	const isDisabled = modalType === MODAL_VIEW;
+	const isShowing = modalType !== MODAL_VIEW;
+	const isViewOrUpdate = [MODAL_VIEW, MODAL_UPDATE].includes(modalType);
+	const defaultValues = {
+		username: '',
+		email: '',
+		password: '',
+		role: '',
+		userImage: null,
+	};
+
+	if (isViewOrUpdate) {
+		delete defaultValues.password;
+		delete schema.password;
+	}
+
 	const {
 		handleSubmit,
 		setValue,
@@ -24,14 +41,8 @@ const FormCreateUser = ({ onSubmit = null, user = {}, modalType = MODAL_TYPE.MOD
 		formState: { isSubmitting, isSubmitSuccessful, errors },
 	} = useForm({
 		mode: 'onChange',
-		resolver: yupResolver(schema),
-		defaultValues: {
-			username: '',
-			password: '',
-			email: '',
-			role: '',
-			userImage: null,
-		},
+		resolver: yupResolver(yup.object().shape({ ...schema })),
+		defaultValues,
 	});
 
 	/* 	React.useEffect(() => {
@@ -39,19 +50,22 @@ const FormCreateUser = ({ onSubmit = null, user = {}, modalType = MODAL_TYPE.MOD
 	}, [isSubmitSuccessful]); */
 
 	useEffect(() => {
-		if (isDisabled && Object.keys(user).length > 0) {
+		if (isViewOrUpdate && Object.keys(user).length > 0) {
 			setValue('username', user?.username);
 			setValue('email', user?.email);
 			setValue('role', user?.role);
+			setValue('userImage', user?.image);
+		} else {
+			reset();
 		}
-	}, []);
+	}, [modalType]);
 
 	const handleSetValue = async (name, value) => {
 		setValue(name, value);
 		await trigger(name);
 	};
 
-	const createUser = (data) => {
+	const handleOnSubmit = (data) => {
 		const formData = new FormData();
 		for (const name in data) {
 			if (name === 'userImage' && data[name] && data[name][0]) {
@@ -60,15 +74,26 @@ const FormCreateUser = ({ onSubmit = null, user = {}, modalType = MODAL_TYPE.MOD
 				formData.append(name, data[name]);
 			}
 		}
+
+		if (modalType === MODAL_UPDATE) {
+			formData.append('id', user.id);
+		}
 		onSubmit(formData);
 	};
 
 	return (
 		<Modal.Body>
-			<Form onSubmit={handleSubmit(createUser)}>
+			<Form onSubmit={handleSubmit(handleOnSubmit)}>
 				<Row>
 					<Col md={4}>
-						<AvatarField register={register} errors={errors} name='userImage' isSubmitSuccessful={isSubmitSuccessful} />
+						<AvatarField
+							register={register}
+							defaultAvatarUser={isViewOrUpdate && user && user.image ? useImageBase64(user.image) : DefaultAvatar}
+							errors={errors}
+							name='userImage'
+							isSubmitSuccessful={isSubmitSuccessful}
+							handleSetValue={handleSetValue}
+						/>
 					</Col>
 					<Col md={8}>
 						<CustomField
@@ -85,9 +110,9 @@ const FormCreateUser = ({ onSubmit = null, user = {}, modalType = MODAL_TYPE.MOD
 							type='email'
 							placeholder='Enter email'
 							label='Email address'
-							disabled={isDisabled}
+							disabled={isViewOrUpdate}
 						/>
-						{isShowing ? (
+						{modalType === MODAL_CREATE ? (
 							<CustomField
 								control={control}
 								name='password'
@@ -107,12 +132,16 @@ const FormCreateUser = ({ onSubmit = null, user = {}, modalType = MODAL_TYPE.MOD
 							handleSetValue={handleSetValue}
 							disabled={isDisabled}
 						/>
-						<ThemeButton
-							isLoading={isSubmitting}
-							data-button={`${isSubmitting ? 'loading' : ''}`}
-							type='submit'
-							title='Create User'
-						/>
+						{modalType !== MODAL_VIEW ? (
+							<div className='text-center'>
+								<ThemeButton
+									isLoading={isSubmitting}
+									data-button={`${isSubmitting ? 'loading' : ''} sm`}
+									type='submit'
+									title={`${modalType === MODAL_CREATE ? 'Create User' : 'Update User'}`}
+								/>
+							</div>
+						) : null}
 					</Col>
 				</Row>
 			</Form>

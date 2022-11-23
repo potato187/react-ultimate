@@ -13,6 +13,7 @@ const AvatarField = ({
 	isSubmitSuccessful,
 	defaultAvatarUser = DefaultAvatar,
 	disabled = false,
+	handleSetValue,
 	...props
 }) => {
 	const id = useId();
@@ -29,9 +30,11 @@ const AvatarField = ({
 		onChange: (e) => {
 			if (!error && e.target.files.length > 0 && checkIfFileIsCorrectType(e.target.files)) {
 				previewImage.current = window.URL.createObjectURL(e.target.files[0]);
+				handleSetValue(name, e.target.files[0]);
 			}
 			if (error) {
 				previewImage.current = DefaultAvatar;
+				handleSetValue(name, '');
 			}
 			setLoading(false);
 		},
