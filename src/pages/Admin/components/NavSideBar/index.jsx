@@ -1,13 +1,21 @@
-import {Menu, MenuItem, Sidebar, SubMenu} from 'react-pro-sidebar';
-import {Link} from 'react-router-dom';
+import { Menu, MenuItem, Sidebar, SubMenu } from 'react-pro-sidebar';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import style from './style.module.scss';
 
 const RenderNavSideBar = ({ id, children = [], label, icon: Icon, to, ...props }) => {
+	const location = useLocation();
 	if (!children.length) {
 		return (
-			<MenuItem as='span' icon={<Icon size='1.5em' />} key={id} {...props} className={style['sidebar-item']}>
+			<MenuItem
+				routerLink={<NavLink to={to} />}
+				as='span'
+				icon={<Icon size='1.5em' />}
+				key={id}
+				label={label}
+				className={style['sidebar-item']}
+				active={location.pathname.includes(to)}
+				{...props}>
 				{label}
-				<Link to={to} />
 			</MenuItem>
 		);
 	}

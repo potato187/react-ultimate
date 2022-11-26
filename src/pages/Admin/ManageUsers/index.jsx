@@ -50,13 +50,12 @@ const ManageUsers = () => {
 		modalType === MODAL_TYPE.MODAL_CREATE
 			? await participantApi.create(formData)
 			: await participantApi.update(formData);
-		toggleModal(false);
 		setTracking((prevState) => !prevState);
+		toggleModal(false);
 	};
 
 	const handleDeleteUser = async (userId) => {
 		await participantApi.delete(userId);
-		toggleModal(false);
 		setTracking((prevState) => !prevState);
 	};
 
@@ -127,7 +126,7 @@ const ManageUsers = () => {
 								tableBody={tableBody}
 								onView={handlePreviewUser}
 								onUpdate={handleOpenModalUpdate}
-								onDelete={null}
+								onDelete={handleDeleteUser}
 							/>
 							<Pagination pageOffset={+queryParams.page - 1} pageCount={totalPage} onPageChange={handleOnPageChange} />
 						</div>

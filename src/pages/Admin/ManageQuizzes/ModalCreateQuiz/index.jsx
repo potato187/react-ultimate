@@ -7,7 +7,7 @@ import { EXAMS_DIFFICULTY, examSchema } from '@schema';
 import SelectField from '@pages/Admin/components/SelectField';
 import * as yup from 'yup';
 import ThemeButton from '@components/ThemeButton/index.jsx';
-import ImageField from '@pages/Admin/ManageQuizz/ImageField';
+import ImageField from '@pages/Admin/ManageQuizzes/ImageField';
 import { useEffect } from 'react';
 import { MODAL_TYPE } from '@constant';
 

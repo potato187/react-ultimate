@@ -6,10 +6,9 @@ import { getToast, uuid } from '@helpers/index.js';
 import useToggle from '@hooks/useToggle.js';
 import ThemeBreadcrumb from '@pages/Admin/components/ThemeBreadcrumb';
 import ThemeTable from '@pages/Admin/components/ThemeTable';
-import ModalCreateQuiz from '@pages/Admin/ManageQuizz/ModalCreateQuiz';
-import { useRef } from 'react';
+import ModalCreateQuiz from '@pages/Admin/ManageQuizzes/ModalCreateQuiz';
 import { useEffect, useState } from 'react';
-import { Col, Modal, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import { MdDashboardCustomize } from 'react-icons/md';
 import style from '../Layout/style.module.scss';
 
@@ -22,7 +21,7 @@ const breadcrumb = [
 	{
 		id: uuid(),
 		to: '/',
-		title: 'Manage Quizz',
+		title: 'Manage Quizzes',
 		active: true,
 	},
 ];

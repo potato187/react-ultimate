@@ -7,9 +7,10 @@ import Auth from '@pages/Auth';
 import LoginPage from '@pages/Auth/LoginPage';
 import Admin from '@pages/Admin';
 import ManageUsers from '@pages/Admin/ManageUsers';
-import ManageQuizzes from '@pages/Admin/ManageQuizz';
+import ManageQuizzes from '@pages/Admin/ManageQuizzes';
 import QuizPage from '@pages/Users/QuizPage';
 import QuizDetailPage from '@pages/Users/QuizDetailPage/index.jsx';
+import ManageQuestions from '@pages/Admin/ManageQuestions';
 
 const { USER, ADMIN, AUTH } = PATH_ROUTES;
 
@@ -86,8 +87,13 @@ export const PAGE_ROUTES = [
 			},
 			{
 				id: uuid(),
-				path: ADMIN.MANAGE_QUIZZ.INDEX,
+				path: ADMIN.MANAGE_QUIZZES.INDEX,
 				Component: ManageQuizzes,
+			},
+			{
+				id: uuid(),
+				path: ADMIN.MANAGE_QUESTIONS.INDEX,
+				Component: ManageQuestions,
 			},
 			{
 				id: uuid(),

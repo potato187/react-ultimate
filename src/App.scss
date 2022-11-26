@@ -1,6 +1,7 @@
 :root {
-	--theme-primary: #4099ff;
-	--theme-primary-hover: var(--bs-blue);
+	--theme-primary: rgb(14 116 144);
+	--theme-primary-hover: rgb(22 78 99);
+
 	--theme-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 	--theme-cyan-600: rgb(8 145 178);
 	--theme-sky-600: rgb(2 132 199);
@@ -107,7 +108,7 @@ button {
 	}
 }
 
-@for $index from 0 through  10 {
+@for $index from 0 through 10 {
 	.z-index-#{$index} {
 		z-index: $index;
 	}

@@ -6,6 +6,13 @@
 
 	.sidebar-item {
 		position: relative;
+		& > [class~='menu-anchor'] {
+			transition: 0.25s var(--theme-timing-function);
+		}
+		&[class~='active'] > [class~='menu-anchor'] {
+			background-color: var(--theme-primary);
+			color: #fff;
+		}
 
 		a::after {
 			content: '';
