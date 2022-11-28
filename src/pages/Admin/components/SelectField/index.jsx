@@ -5,6 +5,7 @@ import { Controller } from 'react-hook-form';
 import style from './style.module.scss';
 import Select from 'react-select';
 import { trimClassNames } from '@helpers/index.js';
+import { BsCloudSnowFill } from 'react-icons/bs';
 
 const customStyles = {
 	control: () => {
@@ -75,19 +76,11 @@ const customStyles = {
 	}),
 };
 
-const SelectField = ({
-	options = [],
-	control,
-	name,
-	label,
-	disabled = false,
-	handleSetValue = null,
-	className = '',
-	...props
-}) => {
+const SelectField = ({ options = [], control, name, label, disabled = false, className = '', ...props }) => {
 	const id = useId();
 	if (!options.length) return <></>;
 	const classes = trimClassNames(['form-group', style['select-group'], className]);
+
 	return (
 		<Controller
 			control={control}
@@ -99,7 +92,7 @@ const SelectField = ({
 						<Select
 							className={style['form-control']}
 							options={options}
-							value={options.find((option) => option.value.toLowerCase() === value.toLowerCase())}
+							value={options.find((option) => option.value.toString().toLowerCase() === value.toString().toLowerCase())}
 							noOptionsMessage={() => null}
 							styles={customStyles}
 							readOnly

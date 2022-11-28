@@ -1,11 +1,22 @@
 .field-question {
-	& + & {
-		margin-top: 0.5rem;
-	}
+	position: relative;
 	display: grid;
 	grid-template-columns: 1fr;
 	grid-template-rows: auto;
 	grid-gap: 0.5rem;
+	padding-bottom: 1.5rem;
+
+	& + & {
+		border-top: 1px solid var(--bs-gray-300);
+		padding: 1rem 0 1.5rem 0;
+	}
+
+	&__title {
+		font-weight: 700;
+		font-size: var(--theme-font-size-7);
+		margin-bottom: 0.25rem;
+	}
+
 	&__header {
 		display: flex;
 
@@ -25,6 +36,11 @@
 				outline: none;
 				box-shadow: none;
 				border-color: var(--bs-primary);
+			}
+
+			input,
+			input::placeholder {
+				font-size: var(--theme-font-size-7);
 			}
 		}
 	}
@@ -74,5 +90,17 @@
 
 	&__answer > &__action {
 		padding-left: 0;
+	}
+
+	.invalid-message {
+		position: absolute;
+		bottom: 0.25rem;
+		left: 0;
+		left: 0.25rem;
+		font-size: 0.8125rem;
+		font-weight: 300;
+		color: var(--bs-danger);
+		display: block;
+		width: 100%;
 	}
 }

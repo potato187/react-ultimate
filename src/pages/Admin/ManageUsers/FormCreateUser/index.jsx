@@ -44,11 +44,6 @@ const FormCreateUser = ({ onSubmit = null, user = {}, modalType = MODAL_TYPE.MOD
 		resolver: yupResolver(yup.object().shape({ ...schema })),
 		defaultValues,
 	});
-
-	/* 	React.useEffect(() => {
-		reset();
-	}, [isSubmitSuccessful]); */
-
 	useEffect(() => {
 		if (isViewOrUpdate && Object.keys(user).length > 0) {
 			setValue('username', user?.username);

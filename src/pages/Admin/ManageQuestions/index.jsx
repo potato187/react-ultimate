@@ -8,7 +8,6 @@ import { Col, Modal, Row } from 'react-bootstrap';
 import { MdDashboardCustomize } from 'react-icons/md';
 import ThemeBreadcrumb from '../components/ThemeBreadcrumb';
 import style from '../Layout/style.module.scss';
-import { ProviderQuestions } from './hooks/useQuestion';
 import ModalQuestions from './ModalQuestions';
 
 const breadcrumb = [
@@ -45,7 +44,11 @@ const ManageQuestions = () => {
 		(async () => {
 			const response = await quizApi.getAllQuiz();
 			if (response && response.EC === 0) {
-				setQuizzes(response.DT);
+				const clone = response.DT.map((quiz) => ({
+					value: quiz.id,
+					label: `${quiz.description} - ${quiz.difficulty}`,
+				}));
+				setQuizzes(clone);
 			}
 		})();
 	}, []);
