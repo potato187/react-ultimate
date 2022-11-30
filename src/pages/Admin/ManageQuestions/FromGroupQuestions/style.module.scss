@@ -4,11 +4,11 @@
 	grid-template-columns: 1fr;
 	grid-template-rows: auto;
 	grid-gap: 0.5rem;
-	padding-bottom: 1.5rem;
+	padding-bottom: 1.25rem;
 
 	& + & {
 		border-top: 1px solid var(--bs-gray-300);
-		padding: 1rem 0 1.5rem 0;
+		padding: 1rem 0 1.25rem 0;
 	}
 
 	&__title {
@@ -19,7 +19,8 @@
 
 	&__header {
 		display: flex;
-
+		position: relative;
+		padding-bottom: 1.25rem;
 		> * {
 			flex-shrink: 0;
 		}
@@ -47,9 +48,10 @@
 
 	&__action {
 		padding-left: 0.5rem;
-		> button + button {
-			margin-left: 0.5rem;
-		}
+		display: flex;
+		gap: 0.5rem;
+
+		label,
 		button {
 			display: inline-flex;
 			justify-content: center;
@@ -79,13 +81,15 @@
 		display: grid;
 		grid-template-columns: 1fr;
 		grid-template-rows: auto;
-		grid-gap: 1rem;
+		position: relative;
 	}
 
 	&__answer {
 		display: grid;
 		grid-template-columns: 2.375rem 1fr auto;
 		grid-gap: 0.5rem;
+		padding-bottom: 1.25rem;
+		position: relative;
 	}
 
 	&__answer > &__action {
@@ -93,8 +97,10 @@
 	}
 
 	.invalid-message {
+		flex-grow: 1;
 		position: absolute;
-		bottom: 0.25rem;
+		display: block;
+		bottom: 0;
 		left: 0;
 		left: 0.25rem;
 		font-size: 0.8125rem;

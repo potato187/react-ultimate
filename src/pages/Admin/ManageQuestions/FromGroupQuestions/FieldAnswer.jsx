@@ -1,3 +1,4 @@
+import { ErrorMessage } from '@hookform/error-message';
 import useInput from '@hooks/useInput';
 import { useId } from 'react';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
@@ -7,7 +8,10 @@ import style from './style.module.scss';
 const FieldAnswer = ({ questionIndex }) => {
 	const descriptionId = useId();
 	const checkboxId = useId();
-	const { control } = useFormContext();
+	const {
+		control,
+		formState: { errors },
+	} = useFormContext();
 	const { fields, append, remove } = useFieldArray({
 		control,
 		name: `question[${questionIndex}].answers`,
@@ -16,9 +20,11 @@ const FieldAnswer = ({ questionIndex }) => {
 	const handleAddAnswer = () => {
 		append({ description: '', isCorrect: false });
 	};
+
 	const handleRemoveAnswer = (index) => {
 		remove(index);
 	};
+
 	return (
 		<>
 			{fields.map((_, index) => (
@@ -35,7 +41,9 @@ const FieldAnswer = ({ questionIndex }) => {
 					<Controller
 						control={control}
 						name={`question[${questionIndex}].answers[${index}].description`}
-						render={({ field }) => <input id={descriptionId} className='form-control' {...field} />}
+						render={({ field }) => (
+							<input id={descriptionId} className='form-control' placeholder='Enter answer' {...field} />
+						)}
 					/>
 					<div className={style['field-question__action']}>
 						<button type='button'>
@@ -45,6 +53,11 @@ const FieldAnswer = ({ questionIndex }) => {
 							<AiOutlineMinusCircle size='1.25em' onClick={() => handleRemoveAnswer(index)} />
 						</button>
 					</div>
+					<ErrorMessage
+						errors={errors}
+						name={`question[${questionIndex}].answers[${index}].description`}
+						render={({ message }) => <div className={style['invalid-message']}>{message}</div>}
+					/>
 				</div>
 			))}
 		</>

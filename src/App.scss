@@ -113,3 +113,10 @@ button {
 		z-index: $index;
 	}
 }
+
+.form-control {
+	font-size: var(--theme-font-size-7);
+	&:focus {
+		box-shadow: none;
+	}
+}
