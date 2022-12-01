@@ -21,6 +21,7 @@
 		display: flex;
 		position: relative;
 		padding-bottom: 1.25rem;
+
 		> * {
 			flex-shrink: 0;
 		}
@@ -50,6 +51,7 @@
 		padding-left: 0.5rem;
 		display: flex;
 		gap: 0.5rem;
+		position: relative;
 
 		label,
 		button {
@@ -100,13 +102,11 @@
 		flex-grow: 1;
 		position: absolute;
 		display: block;
-		bottom: 0;
-		left: 0;
+		bottom: 0.125rem;
 		left: 0.25rem;
-		font-size: 0.8125rem;
+		font-size: 0.75rem;
 		font-weight: 300;
 		color: var(--bs-danger);
-		display: block;
 		width: 100%;
 	}
 }

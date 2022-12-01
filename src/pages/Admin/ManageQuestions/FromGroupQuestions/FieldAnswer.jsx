@@ -56,7 +56,11 @@ const FieldAnswer = ({ questionIndex }) => {
 					<ErrorMessage
 						errors={errors}
 						name={`question[${questionIndex}].answers[${index}].description`}
-						render={({ message }) => <div className={style['invalid-message']}>{message}</div>}
+						render={({ message }) => (
+							<div className={style['invalid-message']} style={{ left: '3rem' }}>
+								{message}
+							</div>
+						)}
 					/>
 				</div>
 			))}

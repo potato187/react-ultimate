@@ -2,7 +2,7 @@ import { useImageBase64 } from '@helpers/index';
 import { ErrorMessage } from '@hookform/error-message';
 import { useEffect, useId, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { AiOutlineMinusCircle, AiOutlinePlusCircle, AiOutlineFolderView } from 'react-icons/ai';
+import { AiOutlineMinusCircle, AiOutlinePlusCircle, AiOutlineFolderView, AiOutlineDelete } from 'react-icons/ai';
 import { BsFillImageFill } from 'react-icons/bs';
 import FieldAnswer from './FieldAnswer';
 import style from './style.module.scss';
@@ -11,6 +11,7 @@ const FieldQuestion = ({ index, control, append, remove, ...props }) => {
 	const {
 		watch,
 		handleOpenLightBox,
+		setValue,
 		formState: { errors },
 	} = useFormContext();
 
@@ -29,6 +30,10 @@ const FieldQuestion = ({ index, control, append, remove, ...props }) => {
 		if (remove) {
 			remove(index);
 		}
+	};
+
+	const handleRemoveQuestionImage = (index) => {
+		setValue(`question[${index}].questionImage`, '');
 	};
 
 	return (
@@ -65,21 +70,28 @@ const FieldQuestion = ({ index, control, append, remove, ...props }) => {
 					<button disabled={disabled} type='button' onClick={() => handleOpenLightBox(watchImage)}>
 						<AiOutlineFolderView size='1.25em' />
 					</button>
+					<button disabled={disabled} type='button' onClick={() => handleRemoveQuestionImage(index)}>
+						<AiOutlineDelete size='1.25em' />
+					</button>
 					<button type='button' onClick={appendFieldQuestion}>
 						<AiOutlinePlusCircle size='1.25em' />
 					</button>
 					<button type='button' size='1.25em' onClick={() => removeFieldQuestion(index)}>
 						<AiOutlineMinusCircle size='1.25em' />
 					</button>
+					<ErrorMessage
+						errors={errors}
+						name={`question[${index}].questionImage`}
+						render={({ message }) => (
+							<div className={style['invalid-message']} style={{ bottom: '-1.25rem' }}>
+								{message}
+							</div>
+						)}
+					/>
 				</div>
 				<ErrorMessage
 					errors={errors}
 					name={`question[${index}].description`}
-					render={({ message }) => <div className={style['invalid-message']}>{message}</div>}
-				/>
-				<ErrorMessage
-					errors={errors}
-					name={`question[${index}].questionImage`}
 					render={({ message }) => <div className={style['invalid-message']}>{message}</div>}
 				/>
 			</div>

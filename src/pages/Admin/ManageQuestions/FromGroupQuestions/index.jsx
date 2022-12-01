@@ -3,7 +3,10 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import FiledQuestion from './FieldQuestion';
 
 const FromGroupQuestions = () => {
-	const { control } = useFormContext();
+	const {
+		control,
+		formState: { isSubmitSuccessful },
+	} = useFormContext();
 	const { fields, append, remove } = useFieldArray({
 		control,
 		name: 'question',

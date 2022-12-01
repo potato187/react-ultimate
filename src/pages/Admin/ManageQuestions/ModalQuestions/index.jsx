@@ -9,7 +9,7 @@ import 'yet-another-react-lightbox/styles.css';
 import Lightbox from 'yet-another-react-lightbox';
 import useToggle from '@hooks/useToggle';
 import { useState } from 'react';
-import { useImageBase64 } from '@helpers/index';
+import { typeOf, useImageBase64 } from '@helpers/index';
 
 const ModalQuestions = ({ onSubmit = null, quizzes = [], addQuestion = null, ...props }) => {
 	const schema = yup.object().shape({
@@ -20,10 +20,12 @@ const ModalQuestions = ({ onSubmit = null, quizzes = [], addQuestion = null, ...
 				questionImage: yup
 					.mixed()
 					.test('fileSize', 'The file is too large', (file) => {
+						if (typeOf(file) === 'string' && file.trim().length === 0) return true;
 						return file && file[0].size <= 8000000;
 					})
 					.test('fileExtension', 'The file extension is invalid', (file) => {
 						let isValid = true;
+						if (typeOf(file) === 'string' && file.trim().length === 0) return true;
 						if (!file || (file && !file[0])) return false;
 						return ['image/jpg', 'image/jpeg', 'image/png'].some((extension) => extension === file[0].type);
 					}),
@@ -64,7 +66,7 @@ const ModalQuestions = ({ onSubmit = null, quizzes = [], addQuestion = null, ...
 	return (
 		<>
 			<FormProvider handleOpenLightBox={handleOpenLightBox} {...methods}>
-				<form onSubmit={methods.handleSubmit(onSubmit)}>
+				<form onSubmit={methods.handleSubmit((data) => onSubmit(data, methods.reset))}>
 					<SelectField control={methods.control} name='quizId' options={quizzes} />
 					<FromGroupQuestions />
 					<div className='text-center'>

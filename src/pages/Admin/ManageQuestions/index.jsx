@@ -1,3 +1,4 @@
+import questionApi from '@api/questionApi';
 import quizApi from '@api/quizApi';
 import ModalBase from '@components/ModalBase';
 import ThemeButton from '@components/ThemeButton';
@@ -6,6 +7,7 @@ import useToggle from '@hooks/useToggle';
 import { useEffect, useState } from 'react';
 import { Col, Modal, Row } from 'react-bootstrap';
 import { MdDashboardCustomize } from 'react-icons/md';
+import { toast } from 'react-toastify';
 import ThemeBreadcrumb from '../components/ThemeBreadcrumb';
 import style from '../Layout/style.module.scss';
 import ModalQuestions from './ModalQuestions';
@@ -32,12 +34,32 @@ const ManageQuestions = () => {
 		toggleModal(true);
 	};
 
-	const handleAddQuestion = (quizId, question) => {
-		console.log(quizId, question);
-	};
-
-	const handleOnSubmit = (data) => {
-		console.log(data);
+	const handleOnSubmit = async (data, reset) => {
+		const { quizId, question: questions } = data;
+		let isSuccess = true;
+		for (const question of questions) {
+			const { description, questionImage, answers } = question;
+			const response = await questionApi.createQuestion({ quizId, description, questionImage });
+			if (response && response.EC !== 0) {
+				isSuccess = false;
+				break;
+			}
+			for (const answer of answers) {
+				const { description, isCorrect } = answer;
+				const response2 = await questionApi.createAnswer({ question_id: response.DT.id, description, isCorrect });
+				if (response2 && response2.EC !== 0) {
+					isSuccess = false;
+					break;
+				}
+			}
+		}
+		if (isSuccess) {
+			toast.success('Create questions and answers are success');
+			reset();
+			toggleModal(false);
+		} else {
+			toast.error('Can not create question and answer');
+		}
 	};
 
 	useEffect(() => {
