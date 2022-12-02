@@ -26,17 +26,14 @@ export const userSchema = {
 
 export const EXAMS_DIFFICULTY = [
 	{
-		key: uuid(),
 		value: 'easy',
 		label: 'Easy',
 	},
 	{
-		key: uuid(),
 		value: 'medium',
 		label: 'Medium',
 	},
 	{
-		key: uuid(),
 		value: 'hard',
 		label: 'Hard',
 	},

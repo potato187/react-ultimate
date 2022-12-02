@@ -59,7 +59,7 @@ const ModalQuestions = ({ onSubmit = null, quizzes = [], addQuestion = null, ...
 
 	useEffect(() => {
 		methods.setValue('question', [
-			{ description: '', questionImage: '', answers: [{ description: 'A', isCorrect: true }] },
+			{ description: '', questionImage: '', answers: [{ description: '', isCorrect: false }] },
 		]);
 	}, []);
 

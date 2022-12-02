@@ -22,11 +22,4 @@ export const SIDEBAR_ROUTES = [
 		to: ADMIN.MANAGE_QUIZZES.INDEX,
 		children: [],
 	},
-	{
-		id: uuid(),
-		label: 'Manage Questions',
-		icon: MdOutlineManageAccounts,
-		to: ADMIN.MANAGE_QUESTIONS.INDEX,
-		children: [],
-	},
 ];
