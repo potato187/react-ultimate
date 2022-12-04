@@ -1,19 +1,14 @@
+import { createFormData } from '@helpers/index';
 import axiosClients from './axiosClient';
 
 const questionApi = {
-	async createQuestion({ quizId, description, questionImage = '' }) {
-		const formData = new FormData();
-		formData.append('quiz_id', quizId);
-		formData.append('description', description);
-		formData.append('questionImage', questionImage ? questionImage[0].files : '');
+	async createQuestion(data) {
+		const formData = createFormData(data, 'questionImage');
 		return await axiosClients.post('/question', formData);
 	},
 
-	async createAnswer({ question_id, description, isCorrect }) {
-		const formData = new FormData();
-		formData.append('question_id', question_id);
-		formData.append('description', description);
-		formData.append('correct_answer', isCorrect);
+	async createAnswer(data) {
+		const formData = createFormData(data);
 		return await axiosClients.post('/answer', formData);
 	},
 };

@@ -1,15 +1,14 @@
 import ThemeButton from '@components/ThemeButton';
+import { typeOf } from '@helpers/index';
 import { yupResolver } from '@hookform/resolvers/yup';
+import useToggle from '@hooks/useToggle';
 import SelectField from '@pages/Admin/components/SelectField';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import Lightbox from 'yet-another-react-lightbox';
+import 'yet-another-react-lightbox/styles.css';
 import * as yup from 'yup';
 import FromGroupQuestions from '../FromGroupQuestions';
-import 'yet-another-react-lightbox/styles.css';
-import Lightbox from 'yet-another-react-lightbox';
-import useToggle from '@hooks/useToggle';
-import { useState } from 'react';
-import { typeOf, useImageBase64 } from '@helpers/index';
 
 const ModalQuestions = ({ onSubmit = null, quizzes = [], addQuestion = null, ...props }) => {
 	const schema = yup.object().shape({

@@ -4,8 +4,18 @@ import { Controller, useFormContext } from 'react-hook-form';
 import Select from 'react-select';
 import { useId } from 'react';
 
+const styles = {
+	control: (styles, state) => ({
+		...styles,
+		backgroundColor: 'white',
+		boxShadow: 'none',
+		minHeight: '35px',
+	}),
+};
+
 const SelectOptions = ({ name, options = [], label = '', ...props }) => {
 	const { control, formState = { errors } } = useFormContext();
+
 	const id = useId();
 	return (
 		<Controller
@@ -14,7 +24,7 @@ const SelectOptions = ({ name, options = [], label = '', ...props }) => {
 			render={({ field: { value, onChange, ...restField } }) => (
 				<>
 					{label ? (
-						<label className='form-label' htmlFor={id}>
+						<label className='form-label fw-bold mb-1' htmlFor={id}>
 							{label}
 						</label>
 					) : null}
@@ -25,6 +35,7 @@ const SelectOptions = ({ name, options = [], label = '', ...props }) => {
 						onChange={(val) => {
 							onChange(val.value);
 						}}
+						styles={styles}
 						{...restField}
 					/>
 				</>

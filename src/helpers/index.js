@@ -41,13 +41,7 @@ export const checkPassword = (str) => {
 };
 
 export const getToast = (EC = -1, EM = 'Has Error') => {
-	if (EC === 0) {
-		toast.success(EM);
-	}
-
-	if (EC !== 0 && EM !== '') {
-		toast.error(EM);
-	}
+	toast[EC === 0 ? 'success' : 'error'](EM);
 };
 
 export const ableNull = (value) => typeOf(value) === 'null';
@@ -56,4 +50,14 @@ export const useImageBase64 = (base) => 'data:image/png;base64, ' + base;
 
 export const leadingZero = (str, leading = 2) => {
 	return `0${str}`.slice(-1 * leading);
-}
+};
+
+export const createFormData = (objectData, nameFile) => {
+	const formData = new FormData();
+	for (const key in objectData) {
+		const value = (key !== nameFile ? objectData[key] : objectData[key][0]) ?? '';
+		formData.append(key, value);
+	}
+
+	return formData;
+};
