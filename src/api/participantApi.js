@@ -1,5 +1,5 @@
 import axiosClients from './axiosClient';
-import {getToast} from '@helpers';
+import { getToast } from '@helpers';
 
 const participantApi = {
 	getAll() {
@@ -10,7 +10,7 @@ const participantApi = {
 	async getFilter(params) {
 		const newParams = { ...params };
 		newParams.page = !params.page || params.page <= 0 ? 1 : params.page;
-		return await axiosClients('/participant', {params: newParams});
+		return await axiosClients('/participant', { params: newParams });
 	},
 
 	async create(formData) {

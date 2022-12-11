@@ -35,23 +35,41 @@ const quizApi = {
 	},
 
 	async updateQuiz(data) {
-		const formData = new FormData();
-		for (const key in data) {
-			if (key === 'quizImage' && data[key] && data[key][0]) {
-				formData.append(key, data[key]);
-			} else {
-				formData.append(key, data[key]);
-			}
-		}
+		const formData = createFormData(data, 'quizImage');
 		const response = await axiosClient.put('/quiz', formData);
-		const { EC, EM } = response;
-		getToast(EC, EM);
+		return response;
 	},
 
-	async deleteQuizById(id) {
-		const response = await axiosClient.delete(`/quiz/${id}`);
-		getToast(response.EC, response.EM);
-		return response.EC;
+	async createQuestion(data) {
+		const formData = createFormData(data, 'questionImage');
+		return await axiosClients.post('/question', formData);
+	},
+
+	async createAnswer(data) {
+		const formData = createFormData(data);
+		return await axiosClients.post('/answer', formData);
+	},
+
+	async getQAfromQuiz(quizId) {
+		return await axiosClients.get(`/quiz-with-qa/${quizId}`);
+	},
+
+	async updateQA(data) {
+		return await axiosClients.post('/quiz-upsert-qa', { ...data });
+	},
+
+	async deleteQuiz(id) {
+		const { EC, EM } = await axiosClient.delete(`/quiz/${id}`);
+		const response = await axiosClients.get(`/quiz-with-qa/${id}`);
+		if (response.EC === 0 && response.DT && response.DT.qa && response.DT.qa.length > 0) {
+			for (const question in DT.qa) {
+				const { EC } = await axiosClients.delete('question', { data: { quizId: id, id: question.id } });
+				if (EC !== 0) {
+					break;
+				}
+			}
+		}
+		return { EC, EM, id };
 	},
 };
 export default quizApi;

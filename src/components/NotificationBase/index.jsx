@@ -1,5 +1,5 @@
 import React from 'react';
-import {ToastContainer} from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -7,7 +7,7 @@ const NotificationBase = ({ ...props }) => {
 	return (
 		<ToastContainer
 			position='top-right'
-			autoClose={2000}
+			autoClose={1000}
 			hideProgressBar={false}
 			newestOnTop={false}
 			closeOnClick={true}

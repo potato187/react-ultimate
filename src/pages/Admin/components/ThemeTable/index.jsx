@@ -1,11 +1,10 @@
 import ModalBase from '@components/ModalBase';
 import ThemeButton from '@components/ThemeButton/index.jsx';
-import { MODAL_TYPE } from '@constant';
+import { MODAL } from '@constant';
 import { uuid } from '@helpers';
 import useToggle from '@hooks/useToggle';
 import { useRef } from 'react';
 import { Modal, Table } from 'react-bootstrap';
-import { ref } from 'yup';
 import style from './style.module.scss';
 
 const ThemeTable = ({
@@ -18,17 +17,12 @@ const ThemeTable = ({
 	toggleModal = null,
 	...props
 }) => {
+	const { MODAL_VIEW, MODAL_UPDATE } = MODAL;
 	const [isOn, toggle] = useToggle(false);
 	const refId = useRef(-1);
 
-	const handleOnView = (id) => {
-		onView(id, MODAL_TYPE.MODAL_VIEW);
-	};
-
-	const handleUpdate = (id) => {
-		if (onUpdate) {
-			onUpdate(id, MODAL_TYPE.MODAL_UPDATE);
-		}
+	const handleOnView = (id, modalType) => {
+		onView(id, modalType);
 	};
 
 	const handleOnDelete = (id) => {
@@ -69,8 +63,16 @@ const ThemeTable = ({
 											<td key={index}>{rest[key]}</td>
 										))}
 										<td className='d-flex gap-1 justify-content-center'>
-											<ThemeButton title='View' data-button='sm secondary' onClick={() => handleOnView(id)} />
-											<ThemeButton title='Update' data-button='sm warning' onClick={() => handleUpdate(id)} />
+											<ThemeButton
+												title='View'
+												data-button='sm secondary'
+												onClick={() => handleOnView(id, MODAL_VIEW)}
+											/>
+											<ThemeButton
+												title='Update'
+												data-button='sm warning'
+												onClick={() => handleOnView(id, MODAL_UPDATE)}
+											/>
 											<ThemeButton title='Delete' data-button='sm danger' onClick={() => handleOnDelete(id)} />
 										</td>
 									</tr>

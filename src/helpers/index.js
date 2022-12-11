@@ -46,7 +46,9 @@ export const getToast = (EC = -1, EM = 'Has Error') => {
 
 export const ableNull = (value) => typeOf(value) === 'null';
 
-export const useImageBase64 = (base) => 'data:image/png;base64, ' + base;
+export const useImageBase64 = (base) => {
+	return base.length > 0 ? 'data:image/png;base64, ' + base : '';
+};
 
 export const leadingZero = (str, leading = 2) => {
 	return `0${str}`.slice(-1 * leading);
@@ -54,10 +56,23 @@ export const leadingZero = (str, leading = 2) => {
 
 export const createFormData = (objectData, nameFile) => {
 	const formData = new FormData();
+	if (nameFile && objectData[nameFile]) {
+		const file = objectData[nameFile];
+		objectData[nameFile] = typeOf(file) === 'filelist' ? file[0] : '';
+	}
+
 	for (const key in objectData) {
-		const value = (key !== nameFile ? objectData[key] : objectData[key][0]) ?? '';
-		formData.append(key, value);
+		formData.append(key, objectData[key]);
 	}
 
 	return formData;
+};
+
+export const toBase64 = (file) => {
+	return new Promise((resolve, reject) => {
+		const reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onload = () => resolve(reader.result);
+		reader.onerror = (error) => reject(error);
+	});
 };

@@ -12,7 +12,6 @@ import { MdDashboardCustomize } from 'react-icons/md';
 import ThemeBreadcrumb from '../components/ThemeBreadcrumb';
 import ThemeTable from '../components/ThemeTable';
 import style from '../Layout/style.module.scss';
-import FormCreateUser from './FormCreateUser';
 
 const breadcrumb = [
 	{
@@ -133,9 +132,9 @@ const ManageUsers = () => {
 					</div>
 				</div>
 			</div>
-			<ModalBase title='Add User' show={isOnModal} handleClose={() => toggleModal(false)}>
+			{/* <ModalBase title='Add User' show={isOnModal} handleClose={() => toggleModal(false)}>
 				<FormCreateUser onSubmit={handleOnSubmit} modalType={modalType} user={previewUser} />
-			</ModalBase>
+			</ModalBase> */}
 		</>
 	);
 };

@@ -5,7 +5,7 @@ import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
 import style from './style.module.scss';
 
-const FieldAnswers = ({ questionIndex }) => {
+const FieldAnswers = ({ isDisabled = false, questionIndex }) => {
 	const descriptionId = useId();
 	const checkboxId = useId();
 	const {
@@ -35,7 +35,14 @@ const FieldAnswers = ({ questionIndex }) => {
 							control={control}
 							name={`question[${questionIndex}].answers[${index}].isCorrect`}
 							render={({ field }) => (
-								<input id={checkboxId} type='checkbox' checked={field.value} className='form-checkbox' {...field} />
+								<input
+									id={checkboxId}
+									type='checkbox'
+									checked={field.value}
+									className='form-checkbox'
+									{...field}
+									disabled={isDisabled}
+								/>
 							)}
 						/>
 					</div>
@@ -43,14 +50,20 @@ const FieldAnswers = ({ questionIndex }) => {
 						control={control}
 						name={`question[${questionIndex}].answers[${index}].description`}
 						render={({ field }) => (
-							<input id={descriptionId} className='form-control' placeholder='Enter answer' {...field} />
+							<input
+								id={descriptionId}
+								className='form-control'
+								placeholder='Enter answer'
+								{...field}
+								disabled={isDisabled}
+							/>
 						)}
 					/>
 					<div className={style['field-question__action']}>
-						<button type='button' onClick={handleAddAnswer}>
+						<button type='button' onClick={handleAddAnswer} disabled={isDisabled}>
 							<AiOutlinePlusCircle size='1.25em' />
 						</button>
-						<button type='button' onClick={() => handleRemoveAnswer(index)}>
+						<button type='button' onClick={() => handleRemoveAnswer(index)} disabled={isDisabled}>
 							<AiOutlineMinusCircle size='1.25em' />
 						</button>
 					</div>

@@ -4,15 +4,18 @@ import imagePlaceholder from '@assets/images/placeholder.png';
 import utilities from '@scss/utilities.module.scss';
 import { useId, useRef, useState, useEffect } from 'react';
 import useClickOutside from '@hooks/useClickOutside.js';
-import { checkIfFileIsCorrectType, useImageBase64 } from '@helpers/index.js';
+import { checkIfFileIsCorrectType, typeOf, useImageBase64 } from '@helpers/index.js';
 import { ErrorMessage } from '@hookform/error-message';
 import '@scss/helpers.scss';
 import { toast } from 'react-toastify';
 import { Controller, useFormContext } from 'react-hook-form';
+import { MODAL } from '@constant';
 
 const ImageField = ({ name, defaultValue = '', ...props }) => {
+	const { MODAL_CREATE } = MODAL;
 	const id = useId();
 	const {
+		modal,
 		control,
 		setValue,
 		watch,
@@ -30,9 +33,11 @@ const ImageField = ({ name, defaultValue = '', ...props }) => {
 		setLoading(false);
 	});
 
+	const convertImage = (image) => {
+		return typeOf(image) === 'string' ? useImageBase64(quizImageWatch) : URL.createObjectURL(quizImageWatch[0]);
+	};
 	useEffect(() => {
-		const image =
-			quizImageWatch && quizImageWatch.length > 0 ? URL.createObjectURL(quizImageWatch[0]) : imagePlaceholder;
+		const image = quizImageWatch && quizImageWatch.length > 0 ? convertImage(quizImageWatch) : imagePlaceholder;
 		setImagePreview(image);
 		setLoading(false);
 	}, [quizImageWatch]);

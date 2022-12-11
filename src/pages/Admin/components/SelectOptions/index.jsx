@@ -31,12 +31,13 @@ const SelectOptions = ({ name, options = [], label = '', ...props }) => {
 					<Select
 						id={id}
 						options={options}
-						value={options.find((option) => option.value === value)}
+						value={options.find((option) => option.value === value.toString().toLowerCase())}
 						onChange={(val) => {
 							onChange(val.value);
 						}}
 						styles={styles}
 						{...restField}
+						{...props}
 					/>
 				</>
 			)}
